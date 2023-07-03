@@ -256,28 +256,28 @@
         "async": false
       }
     },
-    "(app-client)/./components/SideBar/index.tsx": {
+    "(app-client)/./app/page.tsx": {
       "*": {
-        "id": "(sc_client)/./components/SideBar/index.tsx",
+        "id": "(sc_client)/./app/page.tsx",
         "name": "*",
         "chunks": [
-          "app/dashboard/layout:static/chunks/app/dashboard/layout.js"
+          "app/page:static/chunks/app/page.js"
         ],
         "async": false
       },
       "": {
-        "id": "(sc_client)/./components/SideBar/index.tsx",
+        "id": "(sc_client)/./app/page.tsx",
         "name": "",
         "chunks": [
-          "app/dashboard/layout:static/chunks/app/dashboard/layout.js"
+          "app/page:static/chunks/app/page.js"
         ],
         "async": false
       },
       "default": {
-        "id": "(sc_client)/./components/SideBar/index.tsx",
+        "id": "(sc_client)/./app/page.tsx",
         "name": "default",
         "chunks": [
-          "app/dashboard/layout:static/chunks/app/dashboard/layout.js"
+          "app/page:static/chunks/app/page.js"
         ],
         "async": false
       }
@@ -287,7 +287,7 @@
         "id": "(sc_client)/./node_modules/next/dist/client/link.js",
         "name": "*",
         "chunks": [
-          "app/dashboard/questions/page:static/chunks/app/dashboard/questions/page.js"
+          "app/register/page:static/chunks/app/register/page.js"
         ],
         "async": false
       },
@@ -295,7 +295,7 @@
         "id": "(sc_client)/./node_modules/next/dist/client/link.js",
         "name": "",
         "chunks": [
-          "app/dashboard/questions/page:static/chunks/app/dashboard/questions/page.js"
+          "app/register/page:static/chunks/app/register/page.js"
         ],
         "async": false
       },
@@ -303,7 +303,7 @@
         "id": "(sc_client)/./node_modules/next/dist/client/link.js",
         "name": "default",
         "chunks": [
-          "app/dashboard/questions/page:static/chunks/app/dashboard/questions/page.js"
+          "app/register/page:static/chunks/app/register/page.js"
         ],
         "async": false
       }
@@ -346,32 +346,6 @@
         "name": "useAuthContext",
         "chunks": [
           "app/layout:static/chunks/app/layout.js"
-        ],
-        "async": false
-      }
-    },
-    "(app-client)/./app/page.tsx": {
-      "*": {
-        "id": "(sc_client)/./app/page.tsx",
-        "name": "*",
-        "chunks": [
-          "app/page:static/chunks/app/page.js"
-        ],
-        "async": false
-      },
-      "": {
-        "id": "(sc_client)/./app/page.tsx",
-        "name": "",
-        "chunks": [
-          "app/page:static/chunks/app/page.js"
-        ],
-        "async": false
-      },
-      "default": {
-        "id": "(sc_client)/./app/page.tsx",
-        "name": "default",
-        "chunks": [
-          "app/page:static/chunks/app/page.js"
         ],
         "async": false
       }
@@ -428,28 +402,28 @@
         "async": false
       }
     },
-    "(app-client)/./components/QuestionsPage/QuestionPage/index.tsx": {
+    "(app-client)/./components/SideBar/index.tsx": {
       "*": {
-        "id": "(sc_client)/./components/QuestionsPage/QuestionPage/index.tsx",
+        "id": "(sc_client)/./components/SideBar/index.tsx",
         "name": "*",
         "chunks": [
-          "app/dashboard/questions/[id]/page:static/chunks/app/dashboard/questions/[id]/page.js"
+          "app/dashboard/layout:static/chunks/app/dashboard/layout.js"
         ],
         "async": false
       },
       "": {
-        "id": "(sc_client)/./components/QuestionsPage/QuestionPage/index.tsx",
+        "id": "(sc_client)/./components/SideBar/index.tsx",
         "name": "",
         "chunks": [
-          "app/dashboard/questions/[id]/page:static/chunks/app/dashboard/questions/[id]/page.js"
+          "app/dashboard/layout:static/chunks/app/dashboard/layout.js"
         ],
         "async": false
       },
       "default": {
-        "id": "(sc_client)/./components/QuestionsPage/QuestionPage/index.tsx",
+        "id": "(sc_client)/./components/SideBar/index.tsx",
         "name": "default",
         "chunks": [
-          "app/dashboard/questions/[id]/page:static/chunks/app/dashboard/questions/[id]/page.js"
+          "app/dashboard/layout:static/chunks/app/dashboard/layout.js"
         ],
         "async": false
       }
@@ -505,15 +479,93 @@
         ],
         "async": false
       }
+    },
+    "(app-client)/./components/LoginPage/index.tsx": {
+      "*": {
+        "id": "(sc_client)/./components/LoginPage/index.tsx",
+        "name": "*",
+        "chunks": [
+          "app/login/page:static/chunks/app/login/page.js"
+        ],
+        "async": false
+      },
+      "": {
+        "id": "(sc_client)/./components/LoginPage/index.tsx",
+        "name": "",
+        "chunks": [
+          "app/login/page:static/chunks/app/login/page.js"
+        ],
+        "async": false
+      },
+      "default": {
+        "id": "(sc_client)/./components/LoginPage/index.tsx",
+        "name": "default",
+        "chunks": [
+          "app/login/page:static/chunks/app/login/page.js"
+        ],
+        "async": false
+      }
+    },
+    "(app-client)/./components/QuestionsPage/QuestionPage/index.tsx": {
+      "*": {
+        "id": "(sc_client)/./components/QuestionsPage/QuestionPage/index.tsx",
+        "name": "*",
+        "chunks": [
+          "app/dashboard/questions/[id]/page:static/chunks/app/dashboard/questions/[id]/page.js"
+        ],
+        "async": false
+      },
+      "": {
+        "id": "(sc_client)/./components/QuestionsPage/QuestionPage/index.tsx",
+        "name": "",
+        "chunks": [
+          "app/dashboard/questions/[id]/page:static/chunks/app/dashboard/questions/[id]/page.js"
+        ],
+        "async": false
+      },
+      "default": {
+        "id": "(sc_client)/./components/QuestionsPage/QuestionPage/index.tsx",
+        "name": "default",
+        "chunks": [
+          "app/dashboard/questions/[id]/page:static/chunks/app/dashboard/questions/[id]/page.js"
+        ],
+        "async": false
+      }
+    },
+    "(app-client)/./components/RegisterPage/index.tsx": {
+      "*": {
+        "id": "(sc_client)/./components/RegisterPage/index.tsx",
+        "name": "*",
+        "chunks": [
+          "app/register/page:static/chunks/app/register/page.js"
+        ],
+        "async": false
+      },
+      "": {
+        "id": "(sc_client)/./components/RegisterPage/index.tsx",
+        "name": "",
+        "chunks": [
+          "app/register/page:static/chunks/app/register/page.js"
+        ],
+        "async": false
+      },
+      "default": {
+        "id": "(sc_client)/./components/RegisterPage/index.tsx",
+        "name": "default",
+        "chunks": [
+          "app/register/page:static/chunks/app/register/page.js"
+        ],
+        "async": false
+      }
     }
   },
   "edgeSSRModuleMapping": {},
   "cssFiles": {
-    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/app/dashboard/layout": [
-      "static/css/app/dashboard/layout.css"
-    ],
     "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/app/layout": [
       "static/css/app/layout.css"
+    ],
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/app/dashboard/layout": [
+      "static/css/app/dashboard/layout.css"
     ]
   },
   "clientModules": {
@@ -1213,35 +1265,27 @@
       ],
       "async": false
     },
-    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/styles/globals.css#": {
-      "id": "null",
-      "name": "default",
-      "chunks": [
-        "static/css/app/dashboard/layout.css",
-        "static/css/app/layout.css"
-      ]
-    },
-    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/SideBar/index.tsx": {
-      "id": "(app-client)/./components/SideBar/index.tsx",
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/app/page.tsx": {
+      "id": "(app-client)/./app/page.tsx",
       "name": "*",
       "chunks": [
-        "app/dashboard/layout:static/chunks/app/dashboard/layout.js"
+        "app/page:static/chunks/app/page.js"
       ],
       "async": false
     },
-    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/SideBar/index.tsx#": {
-      "id": "(app-client)/./components/SideBar/index.tsx",
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/app/page.tsx#": {
+      "id": "(app-client)/./app/page.tsx",
       "name": "",
       "chunks": [
-        "app/dashboard/layout:static/chunks/app/dashboard/layout.js"
+        "app/page:static/chunks/app/page.js"
       ],
       "async": false
     },
-    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/SideBar/index.tsx#default": {
-      "id": "(app-client)/./components/SideBar/index.tsx",
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/app/page.tsx#default": {
+      "id": "(app-client)/./app/page.tsx",
       "name": "default",
       "chunks": [
-        "app/dashboard/layout:static/chunks/app/dashboard/layout.js"
+        "app/page:static/chunks/app/page.js"
       ],
       "async": false
     },
@@ -1249,7 +1293,7 @@
       "id": "(app-client)/./node_modules/next/dist/client/link.js",
       "name": "*",
       "chunks": [
-        "app/dashboard/questions/page:static/chunks/app/dashboard/questions/page.js"
+        "app/register/page:static/chunks/app/register/page.js"
       ],
       "async": false
     },
@@ -1257,7 +1301,7 @@
       "id": "(app-client)/./node_modules/next/dist/client/link.js",
       "name": "*",
       "chunks": [
-        "app/dashboard/questions/page:static/chunks/app/dashboard/questions/page.js"
+        "app/register/page:static/chunks/app/register/page.js"
       ],
       "async": false
     },
@@ -1265,7 +1309,7 @@
       "id": "(app-client)/./node_modules/next/dist/client/link.js",
       "name": "",
       "chunks": [
-        "app/dashboard/questions/page:static/chunks/app/dashboard/questions/page.js"
+        "app/register/page:static/chunks/app/register/page.js"
       ],
       "async": false
     },
@@ -1273,7 +1317,7 @@
       "id": "(app-client)/./node_modules/next/dist/client/link.js",
       "name": "",
       "chunks": [
-        "app/dashboard/questions/page:static/chunks/app/dashboard/questions/page.js"
+        "app/register/page:static/chunks/app/register/page.js"
       ],
       "async": false
     },
@@ -1281,7 +1325,7 @@
       "id": "(app-client)/./node_modules/next/dist/client/link.js",
       "name": "default",
       "chunks": [
-        "app/dashboard/questions/page:static/chunks/app/dashboard/questions/page.js"
+        "app/register/page:static/chunks/app/register/page.js"
       ],
       "async": false
     },
@@ -1289,9 +1333,17 @@
       "id": "(app-client)/./node_modules/next/dist/client/link.js",
       "name": "default",
       "chunks": [
-        "app/dashboard/questions/page:static/chunks/app/dashboard/questions/page.js"
+        "app/register/page:static/chunks/app/register/page.js"
       ],
       "async": false
+    },
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/styles/globals.css#": {
+      "id": "null",
+      "name": "default",
+      "chunks": [
+        "static/css/app/layout.css",
+        "static/css/app/dashboard/layout.css"
+      ]
     },
     "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/app/providers/authProvider.tsx": {
       "id": "(app-client)/./app/providers/authProvider.tsx",
@@ -1330,30 +1382,6 @@
       "name": "useAuthContext",
       "chunks": [
         "app/layout:static/chunks/app/layout.js"
-      ],
-      "async": false
-    },
-    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/app/page.tsx": {
-      "id": "(app-client)/./app/page.tsx",
-      "name": "*",
-      "chunks": [
-        "app/page:static/chunks/app/page.js"
-      ],
-      "async": false
-    },
-    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/app/page.tsx#": {
-      "id": "(app-client)/./app/page.tsx",
-      "name": "",
-      "chunks": [
-        "app/page:static/chunks/app/page.js"
-      ],
-      "async": false
-    },
-    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/app/page.tsx#default": {
-      "id": "(app-client)/./app/page.tsx",
-      "name": "default",
-      "chunks": [
-        "app/page:static/chunks/app/page.js"
       ],
       "async": false
     },
@@ -1405,27 +1433,27 @@
       ],
       "async": false
     },
-    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/QuestionsPage/QuestionPage/index.tsx": {
-      "id": "(app-client)/./components/QuestionsPage/QuestionPage/index.tsx",
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/SideBar/index.tsx": {
+      "id": "(app-client)/./components/SideBar/index.tsx",
       "name": "*",
       "chunks": [
-        "app/dashboard/questions/[id]/page:static/chunks/app/dashboard/questions/[id]/page.js"
+        "app/dashboard/layout:static/chunks/app/dashboard/layout.js"
       ],
       "async": false
     },
-    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/QuestionsPage/QuestionPage/index.tsx#": {
-      "id": "(app-client)/./components/QuestionsPage/QuestionPage/index.tsx",
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/SideBar/index.tsx#": {
+      "id": "(app-client)/./components/SideBar/index.tsx",
       "name": "",
       "chunks": [
-        "app/dashboard/questions/[id]/page:static/chunks/app/dashboard/questions/[id]/page.js"
+        "app/dashboard/layout:static/chunks/app/dashboard/layout.js"
       ],
       "async": false
     },
-    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/QuestionsPage/QuestionPage/index.tsx#default": {
-      "id": "(app-client)/./components/QuestionsPage/QuestionPage/index.tsx",
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/SideBar/index.tsx#default": {
+      "id": "(app-client)/./components/SideBar/index.tsx",
       "name": "default",
       "chunks": [
-        "app/dashboard/questions/[id]/page:static/chunks/app/dashboard/questions/[id]/page.js"
+        "app/dashboard/layout:static/chunks/app/dashboard/layout.js"
       ],
       "async": false
     },
@@ -1474,6 +1502,78 @@
       "name": "default",
       "chunks": [
         "app/dashboard/questions/page:static/chunks/app/dashboard/questions/page.js"
+      ],
+      "async": false
+    },
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/LoginPage/index.tsx": {
+      "id": "(app-client)/./components/LoginPage/index.tsx",
+      "name": "*",
+      "chunks": [
+        "app/login/page:static/chunks/app/login/page.js"
+      ],
+      "async": false
+    },
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/LoginPage/index.tsx#": {
+      "id": "(app-client)/./components/LoginPage/index.tsx",
+      "name": "",
+      "chunks": [
+        "app/login/page:static/chunks/app/login/page.js"
+      ],
+      "async": false
+    },
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/LoginPage/index.tsx#default": {
+      "id": "(app-client)/./components/LoginPage/index.tsx",
+      "name": "default",
+      "chunks": [
+        "app/login/page:static/chunks/app/login/page.js"
+      ],
+      "async": false
+    },
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/QuestionsPage/QuestionPage/index.tsx": {
+      "id": "(app-client)/./components/QuestionsPage/QuestionPage/index.tsx",
+      "name": "*",
+      "chunks": [
+        "app/dashboard/questions/[id]/page:static/chunks/app/dashboard/questions/[id]/page.js"
+      ],
+      "async": false
+    },
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/QuestionsPage/QuestionPage/index.tsx#": {
+      "id": "(app-client)/./components/QuestionsPage/QuestionPage/index.tsx",
+      "name": "",
+      "chunks": [
+        "app/dashboard/questions/[id]/page:static/chunks/app/dashboard/questions/[id]/page.js"
+      ],
+      "async": false
+    },
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/QuestionsPage/QuestionPage/index.tsx#default": {
+      "id": "(app-client)/./components/QuestionsPage/QuestionPage/index.tsx",
+      "name": "default",
+      "chunks": [
+        "app/dashboard/questions/[id]/page:static/chunks/app/dashboard/questions/[id]/page.js"
+      ],
+      "async": false
+    },
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/RegisterPage/index.tsx": {
+      "id": "(app-client)/./components/RegisterPage/index.tsx",
+      "name": "*",
+      "chunks": [
+        "app/register/page:static/chunks/app/register/page.js"
+      ],
+      "async": false
+    },
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/RegisterPage/index.tsx#": {
+      "id": "(app-client)/./components/RegisterPage/index.tsx",
+      "name": "",
+      "chunks": [
+        "app/register/page:static/chunks/app/register/page.js"
+      ],
+      "async": false
+    },
+    "/Users/kolyasotnichenko/Desktop/intellihire-tailwindcss/components/RegisterPage/index.tsx#default": {
+      "id": "(app-client)/./components/RegisterPage/index.tsx",
+      "name": "default",
+      "chunks": [
+        "app/register/page:static/chunks/app/register/page.js"
       ],
       "async": false
     }
