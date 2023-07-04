@@ -1,9 +1,13 @@
 "use client";
 
+import QuestionCard from "@/shared/QuestionCard";
+import { db } from "@/utils/firebase";
+import { getAuth } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-interface IQuestion {
+export interface IQuestion {
   id: string;
   title: string;
   question: string;
@@ -36,17 +40,14 @@ const QuestionsPage = () => {
           <h1 className="text-[24px] font-bold mb-8">Questions bank</h1>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
             {questions.map((question) => (
-              <Link
-                href={`/dashboard/questions/${question.id}`}
-                className="flex flex-col gap-y-[5px]  p-4  h-full rounded-[20px] border  border-gray-400"
-              >
-                <p className="text-[18px] font-bold text-gray-400 dark:text-black capitalize">
-                  {question.title}
-                </p>
-                <p className="text-[18px] font-bold text-gray-400 dark:text-gray-400">
-                  {question.question}
-                </p>
-              </Link>
+              <QuestionCard
+                key={question.id}
+                id={question.id}
+                title={question.title}
+                question={question.question}
+                video={question.video}
+                isComplete={question.isComplete}
+              />
             ))}
           </div>
         </div>

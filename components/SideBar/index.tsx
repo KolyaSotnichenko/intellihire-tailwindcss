@@ -2,10 +2,15 @@
 
 import { logout } from "@/lib/auth";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SideBar = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isDesktop, setIsDesktop] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(!isDesktop);
+
+  useEffect(() => {
+    setIsDesktop(window.innerWidth >= 768);
+  }, []);
 
   return (
     <>
@@ -53,6 +58,7 @@ const SideBar = () => {
               <li>
                 <Link
                   href="/dashboard"
+                  onClick={() => setIsOpen(!isOpen)}
                   className="flex items-center p-2 text-black hover:text-white rounded-lg  hover:bg-gray-200"
                 >
                   <svg
@@ -71,6 +77,7 @@ const SideBar = () => {
               <li>
                 <Link
                   href="/dashboard/interviews"
+                  onClick={() => setIsOpen(!isOpen)}
                   className="flex items-center p-2 text-black hover:text-white rounded-lg hover:bg-gray-200"
                 >
                   <svg
@@ -93,6 +100,7 @@ const SideBar = () => {
               <li>
                 <Link
                   href="/dashboard/questions"
+                  onClick={() => setIsOpen(!isOpen)}
                   className="flex items-center p-2 text-black hover:text-white rounded-lg hover:bg-gray-200"
                 >
                   <svg

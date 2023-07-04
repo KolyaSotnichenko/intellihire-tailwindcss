@@ -2,11 +2,10 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { v4 as uuid } from "uuid";
-import Link from "next/link";
 import { useRef, useState, useEffect, useCallback } from "react";
 import Webcam from "react-webcam";
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import {
   arrayUnion,
   collection,
@@ -55,9 +54,9 @@ export default function QuestionDetail() {
   const [transcript, setTranscript] = useState("");
   const [generatedFeedback, setGeneratedFeedback] = useState("");
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
+  const [completedQuestions, setCompletedQuestions] = useState<string[]>();
 
   const params = useParams();
-  const router = useRouter();
 
   const auth = getAuth();
 
@@ -85,7 +84,6 @@ export default function QuestionDetail() {
   useEffect(() => {
     const getCompletedCollectionByUserId = async () => {
       try {
-        const auth = getAuth(); // Get Auth instance
         const user = auth.currentUser;
 
         if (user) {
@@ -93,12 +91,7 @@ export default function QuestionDetail() {
           const docSnapshot = await getDoc(completedCollectionRef);
 
           if (docSnapshot.exists()) {
-            console.log(
-              docSnapshot.data().Completed.includes(questionData?.id)
-            );
-            setIsCompleted(
-              docSnapshot.data().Completed.includes(questionData?.id)
-            );
+            setCompletedQuestions(docSnapshot.data().Completed);
           } else {
             console.log("User not found");
           }
@@ -114,7 +107,20 @@ export default function QuestionDetail() {
     };
 
     getCompletedCollectionByUserId();
-  }, []);
+  }, [questionData]);
+
+  useEffect(() => {
+    if (completedQuestions) {
+      console.log(questionData?.id, completedQuestions[0]);
+    }
+    if (
+      completedQuestions &&
+      questionData &&
+      completedQuestions.includes(questionData.id)
+    ) {
+      setIsCompleted(true);
+    }
+  }, [completedQuestions]);
 
   useEffect(() => {
     if (videoEnded) {
@@ -395,7 +401,7 @@ export default function QuestionDetail() {
                     as you leave the page.
                   </p>
                 </div>
-                {isCompleted || questionData?.isComplete ? (
+                {isCompleted ? (
                   <button
                     className="cursor-disabled group rounded-full min-w-[140px] px-4 py-2 text-[13px] font-semibold group inline-flex items-center justify-center text-sm text-white duration-150 bg-green-500 hover:bg-green-600 hover:text-slate-100 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 active:scale-100 active:bg-green-800 active:text-green-100"
                     style={{
