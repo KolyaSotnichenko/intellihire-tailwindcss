@@ -5,13 +5,13 @@ import { getAuth } from "firebase/auth";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
-const DashBoardPage = () => {
+const InterviewsPage = () => {
   const [countCompletedQuestions, setCountCompletedQuestions] = useState<any>();
 
   useEffect(() => {
     const getCompletedCollectionByUserId = async () => {
       try {
-        const auth = getAuth();
+        const auth = getAuth(); // Get Auth instance
         const user = auth.currentUser;
 
         if (user) {
@@ -40,9 +40,11 @@ const DashBoardPage = () => {
   return (
     <>
       <div className="p-4 sm:ml-64">
-        <div className="p-4  rounded-lg">
-          <h1 className="text-[24px] font-bold mb-8 capitalize">Home</h1>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+        <div className="p-4  rounded-lg ">
+          <h1 className="text-[24px] font-bold mb-8 capitalize">
+            All interviews
+          </h1>
+          {/* <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
             <div className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400">
               <p className="text-[15px] text-gray-400 dark:text-gray-400 capitalize">
                 Completed questions
@@ -67,7 +69,7 @@ const DashBoardPage = () => {
                 0 days
               </p>
             </div>
-          </div>
+          </div> */}
           <div className="flex items-center justify-center h-[50vh] mb-4 rounded bg-gray-50 cursor-pointer ">
             <p className="text-2xl text-gray-400 dark:text-gray-500">
               💎Get Pro version
@@ -131,4 +133,4 @@ const DashBoardPage = () => {
   );
 };
 
-export default DashBoardPage;
+export default InterviewsPage;

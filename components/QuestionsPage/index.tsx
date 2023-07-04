@@ -33,7 +33,8 @@ const QuestionsPage = () => {
     <>
       <div className="p-4 sm:ml-64">
         <div className="p-4  rounded-lg ">
-          <div className="grid grid-cols-3 gap-4 mb-4">
+          <h1 className="text-[24px] font-bold mb-8">Questions bank</h1>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
             {questions.map((question) => (
               <Link
                 href={`/dashboard/questions/${question.id}`}

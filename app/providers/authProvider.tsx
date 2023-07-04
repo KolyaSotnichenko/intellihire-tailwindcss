@@ -1,7 +1,7 @@
 "use client";
 
 import { onAuthStateChanged, getAuth, User } from "firebase/auth";
-import firebase_app from "../../utils/firebase";
+import { firebase_app } from "../../utils/firebase";
 import {
   ReactNode,
   createContext,
@@ -46,8 +46,8 @@ export const AuthContextProvider = ({
   }, []);
 
   useEffect(() => {
-    if (user == null) router.push("/");
-    else router.push("/dashboard");
+    if (user) router.push("/dashboard");
+    // else router.push("/dashboard");
   }, [user]);
 
   return (
