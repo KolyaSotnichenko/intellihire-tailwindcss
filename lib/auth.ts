@@ -1,4 +1,5 @@
-import firebase_app from "../utils/firebase";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import {firebase_app, db} from "../utils/firebase";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const auth = getAuth(firebase_app);
@@ -9,6 +10,15 @@ export const signUp = async(email: string, password: string) => {
         error = null;
     try {
         result = await createUserWithEmailAndPassword(auth, email, password);
+
+        const userDoc = {
+            email: result.user.email
+        }
+
+        const usersCollection = collection(db, 'users'); // Assuming you have initialized the Firestore 'db' instance
+    const userDocRef = doc(usersCollection, result.user.uid); // Use UID as document ID
+    await setDoc(userDocRef, userDoc);
+
     } catch (e) {
         error = e;
     }

@@ -7,6 +7,16 @@ import { useRef, useState, useEffect, useCallback } from "react";
 import Webcam from "react-webcam";
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 import { useParams, useRouter } from "next/navigation";
+import {
+  arrayUnion,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "@/utils/firebase";
+import { getAuth } from "firebase/auth";
 
 const ffmpeg = createFFmpeg({
   // corePath: `http://localhost:3000/ffmpeg/dist/ffmpeg-core.js`,
@@ -44,10 +54,12 @@ export default function QuestionDetail() {
   const [completed, setCompleted] = useState(false);
   const [transcript, setTranscript] = useState("");
   const [generatedFeedback, setGeneratedFeedback] = useState("");
-  const [isSuccessUpload, setIsSuccessUpload] = useState<boolean>(false);
+  const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
   const params = useParams();
   const router = useRouter();
+
+  const auth = getAuth();
 
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);
@@ -68,6 +80,40 @@ export default function QuestionDetail() {
     };
 
     getQuestion();
+  }, []);
+
+  useEffect(() => {
+    const getCompletedCollectionByUserId = async () => {
+      try {
+        const auth = getAuth(); // Get Auth instance
+        const user = auth.currentUser;
+
+        if (user) {
+          const completedCollectionRef = doc(db, "users", user.uid); // Reference to the "Completed" collection within the user document
+          const docSnapshot = await getDoc(completedCollectionRef);
+
+          if (docSnapshot.exists()) {
+            console.log(
+              docSnapshot.data().Completed.includes(questionData?.id)
+            );
+            setIsCompleted(
+              docSnapshot.data().Completed.includes(questionData?.id)
+            );
+          } else {
+            console.log("User not found");
+          }
+        } else {
+          console.log("No authenticated user");
+        }
+      } catch (error) {
+        console.error(
+          'Error retrieving "Completed" collection for user:',
+          error
+        );
+      }
+    };
+
+    getCompletedCollectionByUserId();
   }, []);
 
   useEffect(() => {
@@ -282,29 +328,12 @@ export default function QuestionDetail() {
 
   const handlePutRequest = async () => {
     try {
-      const response = await fetch(
-        `https://64a1641a0079ce56e2db0688.mockapi.io/questions/${questionData?.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            ...questionData,
-            isComplete: true,
-          }),
-        }
-      );
+      const userDocRef = doc(db, `users/${auth.currentUser?.uid}`);
+      await updateDoc(userDocRef, {
+        Completed: [questionData?.id],
+      });
 
-      if (response.ok) {
-        // Request was successful
-        console.log("PUT request successful");
-        setIsSuccessUpload(true);
-        // router.push("/dashboard/questions");
-      } else {
-        // Request failed
-        console.log("PUT request failed");
-      }
+      setIsCompleted(true);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -315,12 +344,6 @@ export default function QuestionDetail() {
       <div className=" min-h-screen flex flex-col px-4 pt-2 pb-8 md:px-8 md:py-2 bg-[#FCFCFC] relative overflow-x-hidden sm:ml-64">
         {completed ? (
           <>
-            <Link
-              href="/dashboard/questions"
-              className="text-gray-500 md:px-6 pt-5"
-            >
-              back
-            </Link>
             <div className="w-full flex flex-col max-w-[1080px] mx-auto mt-[4vh] overflow-y-auto pb-8 md:pb-12">
               <motion.div
                 initial={{ y: 20 }}
@@ -372,7 +395,7 @@ export default function QuestionDetail() {
                     as you leave the page.
                   </p>
                 </div>
-                {isSuccessUpload || questionData?.isComplete ? (
+                {isCompleted || questionData?.isComplete ? (
                   <button
                     className="cursor-disabled group rounded-full min-w-[140px] px-4 py-2 text-[13px] font-semibold group inline-flex items-center justify-center text-sm text-white duration-150 bg-green-500 hover:bg-green-600 hover:text-slate-100 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 active:scale-100 active:bg-green-800 active:text-green-100"
                     style={{
@@ -402,7 +425,7 @@ export default function QuestionDetail() {
                   <div className="flex flex-row gap-2">
                     <button
                       onClick={handlePutRequest}
-                      disabled={isSubmitting}
+                      disabled={isCompleted}
                       className="group rounded-full min-w-[140px] px-4 py-2 text-[13px] font-semibold transition-all flex items-center justify-center bg-[#1E2B3A] text-white hover:[linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), #0D2247] no-underline flex  active:scale-95 scale-100 duration-75  disabled:cursor-not-allowed"
                       style={{
                         boxShadow:
@@ -410,7 +433,7 @@ export default function QuestionDetail() {
                       }}
                     >
                       <span>
-                        {isSubmitting ? (
+                        {isCompleted ? (
                           <div className="flex items-center justify-center gap-x-2">
                             <svg
                               className="animate-spin h-5 w-5 text-slate-50 mx-auto"

@@ -1,6 +1,42 @@
 "use client";
 
+import { db } from "@/utils/firebase";
+import { getAuth } from "firebase/auth";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { useEffect, useState } from "react";
+
 const DashBoardPage = () => {
+  const [countCompletedQuestions, setCountCompletedQuestions] = useState<any>();
+
+  useEffect(() => {
+    const getCompletedCollectionByUserId = async () => {
+      try {
+        const auth = getAuth(); // Get Auth instance
+        const user = auth.currentUser;
+
+        if (user) {
+          const completedCollectionRef = doc(db, "users", user.uid); // Reference to the "Completed" collection within the user document
+          const docSnapshot = await getDoc(completedCollectionRef);
+
+          if (docSnapshot.exists()) {
+            console.log(docSnapshot.data());
+            setCountCompletedQuestions(docSnapshot.data().Completed.length);
+          } else {
+            console.log("User not found");
+          }
+        } else {
+          console.log("No authenticated user");
+        }
+      } catch (error) {
+        console.error(
+          'Error retrieving "Completed" collection for user:',
+          error
+        );
+      }
+    };
+
+    getCompletedCollectionByUserId();
+  }, []);
   return (
     <>
       <div className="p-4 sm:ml-64">
@@ -11,7 +47,7 @@ const DashBoardPage = () => {
                 Completed questions
               </p>
               <p className="text-2xl font-bold text-gray-400 dark:text-black">
-                0
+                {countCompletedQuestions}
               </p>
             </div>
             <div className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400">
