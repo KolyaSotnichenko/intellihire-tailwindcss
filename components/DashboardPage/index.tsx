@@ -71,7 +71,7 @@ const DashBoardPage = () => {
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-center h-[70vh] mb-4 rounded  cursor-pointer ">
+          <div className="hidden md:flex items-center justify-center h-[70vh] mb-4 rounded  cursor-pointer ">
             <section className="rounded-[20px] bg-gray-900">
               <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                 <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
