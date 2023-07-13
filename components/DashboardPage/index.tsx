@@ -71,31 +71,46 @@ const DashBoardPage = () => {
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-center h-[50vh] mb-4 rounded bg-gray-50 cursor-pointer ">
-            <p className="text-2xl text-gray-400 dark:text-gray-500">
-              💎Get Pro version
-            </p>
-            <svg
-              className="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M13.75 6.75L19.25 12L13.75 17.25"
-                stroke="#1E2B3A"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M19 12H4.75"
-                stroke="#1E2B3A"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+          <div className="flex items-center justify-center h-[70vh] mb-4 rounded  cursor-pointer ">
+            <section className="rounded-[20px] bg-gray-900">
+              <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+                <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
+                  <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+                    Introducing IntelliHire with Chat GPT
+                  </h2>
+                  <p className="mb-4">
+                    The IntelliHire is a revolutionary tool that provides users
+                    with the ability to simulate job interviews and receive
+                    valuable feedback from Chat GPT, our advanced language
+                    model. Whether you are a job seeker looking to enhance your
+                    interview skills or a hiring manager seeking to train your
+                    team, our Interview Simulator is designed to meet your
+                    needs.
+                  </p>
+                  <p className="mb-4">
+                    With the IntelliHire, you can engage in realistic interview
+                    scenarios tailored to various industries and job roles. The
+                    Chat GPT algorithm mimics human conversation, allowing you
+                    to interact with a virtual interviewer who asks relevant
+                    questions and evaluates your responses in real-time.
+                  </p>
+                  <p className="mb-4">
+                    After each simulated interview, Chat GPT provides
+                    comprehensive feedback and suggestions to help you improve
+                    your performance. Whether it's highlighting areas where you
+                    excelled or offering suggestions for areas of improvement,
+                    our Interview Simulator aims to enhance your interview
+                    skills and increase your chances of success.
+                  </p>
+                  <p>
+                    Experience the power of our interview simulator with Chat
+                    GPT today. Let us assist you in honing your interview
+                    skills, gaining confidence, and achieving your professional
+                    goals.
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
           {/*<div className="grid grid-cols-2 gap-4 mb-4">
             <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
