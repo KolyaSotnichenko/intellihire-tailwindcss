@@ -49,7 +49,7 @@ const DashBoardPage = () => {
                 Completed questions
               </p>
               <p className="text-2xl font-bold text-gray-400 dark:text-black">
-                {countCompletedQuestions}
+                {countCompletedQuestions ? countCompletedQuestions : 0}
               </p>
             </div>
             <div className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400">
