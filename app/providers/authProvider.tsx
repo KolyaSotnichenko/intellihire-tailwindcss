@@ -48,7 +48,7 @@ export const AuthContextProvider = ({
 
   useEffect(() => {
     if (user) router.push("/dashboard");
-    else router.push("/");
+    // else router.push("/");
   }, [user]);
 
   return (

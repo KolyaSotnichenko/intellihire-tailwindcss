@@ -1,11 +1,13 @@
 "use client";
 
+import AddQuestionModal from "@/shared/AddQuestionModal";
 import QuestionsTable from "@/shared/QuestionsTable";
 import { useEffect, useState } from "react";
 
 const AdminPanelPage = () => {
   const [NumberOfQuestions, setNumberOfQuestions] = useState<number>(0);
   const [questions, setQuestions] = useState<[]>([]);
+  const [openAddModal, setOpenAddModal] = useState<boolean>(false);
 
   useEffect(() => {
     const getQuestions = async () => {
@@ -41,15 +43,14 @@ const AdminPanelPage = () => {
                 {NumberOfQuestions}
               </p>
             </div>
+            <button
+              onClick={() => setOpenAddModal(true)}
+              className="p-2 hover:bg-slate-400 hover:text-white  rounded-[20px] border  border-gray-400"
+            >
+              Add question
+            </button>
+            {openAddModal && <AddQuestionModal handleOpen={setOpenAddModal} />}
             {/* <div className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400">
-              <p className="text-[15px] text-gray-400 dark:text-gray-400 capitalize">
-                Total interview time
-              </p>
-              <p className="text-2xl font-bold text-gray-400 dark:text-black">
-                00:00
-              </p>
-            </div>
-            <div className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400">
               <p className="text-[15px] text-gray-400 dark:text-gray-400 capitalize">
                 Current streak✨
               </p>

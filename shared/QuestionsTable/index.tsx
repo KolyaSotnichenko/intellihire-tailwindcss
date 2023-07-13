@@ -1,11 +1,14 @@
 import { IQuestion } from "@/components/QuestionsPage";
-import { FC } from "react";
+import { FC, useState } from "react";
+import EditQuestionModal from "../EditQuestionModal";
 
 interface IQuestionTableProps {
   data: IQuestion[];
 }
 
 const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
+  const [openEditModal, setOpenEditModel] = useState<boolean>(false);
+
   const handleRemoveQuestion = (id: string) => {
     fetch(`https://64a1641a0079ce56e2db0688.mockapi.io/questions/${id}`, {
       method: "DELETE",
@@ -38,8 +41,9 @@ const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
         </thead>
         <tbody>
           {data ? (
-            data.map((item) => (
+            data.map((item, index) => (
               <tr
+                key={index}
                 className={`bg-white border-b ${
                   parseInt(item.id) % 2 ? "bg-gray-300" : "bg-gray-100"
                 } dark:border-gray-200`}
@@ -50,8 +54,23 @@ const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
                 >
                   {item.title}
                 </th>
-                <td className="px-6 py-4">{item.question}</td>
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 text-gray-800">{item.question}</td>
+                <td className="px-6 py-4 flex gap-x-5">
+                  <button
+                    className="text-gray-900 hover:text-gray-500"
+                    onClick={() => setOpenEditModel(true)}
+                  >
+                    Edit
+                  </button>
+                  {openEditModal && (
+                    <EditQuestionModal
+                      id={item.id}
+                      title={item.title}
+                      text={item.question}
+                      video={item.video}
+                      handleOpen={setOpenEditModel}
+                    />
+                  )}
                   <button
                     className="text-red-500 hover:text-gray-500"
                     onClick={() => handleRemoveQuestion(item.id)}
