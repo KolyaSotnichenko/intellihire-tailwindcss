@@ -41,6 +41,7 @@ export default function QuestionDetail() {
   const [capturing, setCapturing] = useState(false);
   const [recordedChunks, setRecordedChunks] = useState<Blob[]>([]);
   const [seconds, setSeconds] = useState(150);
+  const [totalSeconds, setTotalSeconds] = useState(0);
   const [videoEnded, setVideoEnded] = useState(false);
   const [recordingPermission, setRecordingPermission] = useState(true);
   const [cameraLoaded, setCameraLoaded] = useState(false);
@@ -55,6 +56,7 @@ export default function QuestionDetail() {
   const [generatedFeedback, setGeneratedFeedback] = useState("");
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
   const [completedQuestions, setCompletedQuestions] = useState<string[]>();
+  const [isSuccessUpload, setIsSuccessUpload] = useState<boolean>(false);
 
   const params = useParams();
 
@@ -174,8 +176,28 @@ export default function QuestionDetail() {
   useEffect(() => {
     let timer: any = null;
     if (capturing) {
-      timer = setInterval(() => {
+      timer = setInterval(async () => {
         setSeconds((seconds) => seconds - 1);
+        //test total interview time
+        setTotalSeconds((totalSeconds) => totalSeconds + 1);
+        try {
+          const userDocRef = doc(db, `users/${auth.currentUser?.uid}`);
+          const docSnapshot = await getDoc(userDocRef);
+
+          if (docSnapshot.exists()) {
+            setTotalSeconds(
+              !docSnapshot.data().TotalTime ? 0 : docSnapshot.data().TotalTime
+            );
+
+            updateDoc(userDocRef, {
+              TotalTime: totalSeconds,
+            });
+
+            console.log(totalSeconds);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
       }, 1000);
       if (seconds === 0) {
         handleStopCaptureClick();
@@ -336,7 +358,7 @@ export default function QuestionDetail() {
     try {
       const userDocRef = doc(db, `users/${auth.currentUser?.uid}`);
       await updateDoc(userDocRef, {
-        Completed: [questionData?.id],
+        Completed: arrayUnion(questionData?.id),
       });
 
       setIsCompleted(true);
@@ -431,7 +453,7 @@ export default function QuestionDetail() {
                   <div className="flex flex-row gap-2">
                     <button
                       onClick={handlePutRequest}
-                      disabled={isCompleted}
+                      disabled={isSuccessUpload}
                       className="group rounded-full min-w-[140px] px-4 py-2 text-[13px] font-semibold transition-all flex items-center justify-center bg-[#1E2B3A] text-white hover:[linear-gradient(0deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), #0D2247] no-underline flex  active:scale-95 scale-100 duration-75  disabled:cursor-not-allowed"
                       style={{
                         boxShadow:

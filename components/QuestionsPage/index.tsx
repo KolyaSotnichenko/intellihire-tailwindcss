@@ -1,10 +1,6 @@
 "use client";
 
 import QuestionCard from "@/shared/QuestionCard";
-import { db } from "@/utils/firebase";
-import { getAuth } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export interface IQuestion {
@@ -12,7 +8,6 @@ export interface IQuestion {
   title: string;
   question: string;
   video: string;
-  isComplete: boolean;
 }
 
 const QuestionsPage = () => {
@@ -46,7 +41,6 @@ const QuestionsPage = () => {
                 title={question.title}
                 question={question.question}
                 video={question.video}
-                isComplete={question.isComplete}
               />
             ))}
           </div>

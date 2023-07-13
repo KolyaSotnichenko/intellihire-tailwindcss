@@ -8,56 +8,6 @@ import { useEffect, useState } from "react";
 const DashBoardPage = () => {
   const [countCompletedQuestions, setCountCompletedQuestions] = useState<any>();
   const [streak, setStreak] = useState(0);
-  const [isButtonActive, setIsButtonActive] = useState(true);
-
-  const auth = getAuth();
-
-  useEffect(() => {
-    const fetchStreak = async () => {
-      if (auth.currentUser?.uid) {
-        try {
-          const userDoc = await getDoc(doc(db, "users", auth.currentUser.uid));
-          if (userDoc.exists()) {
-            const data = userDoc.data();
-            const lastUpdateTimestamp = data.lastUpdate;
-
-            if (lastUpdateTimestamp) {
-              const currentTime = Date.now();
-              const lastUpdate = lastUpdateTimestamp.toMillis();
-              const timeDifference = currentTime - lastUpdate;
-
-              // If the time difference is greater than or equal to 24 hours, reset the streak
-              if (timeDifference >= 86400000) {
-                setStreak(0);
-                setIsButtonActive(true);
-              } else {
-                setIsButtonActive(false);
-              }
-            }
-          }
-        } catch (error) {
-          console.error("Error fetching streak:", error);
-        }
-      }
-    };
-
-    fetchStreak();
-  }, [auth.currentUser?.uid]);
-
-  const updateStreak = async () => {
-    if (auth.currentUser?.uid) {
-      try {
-        const userRef = doc(db, "users", auth.currentUser.uid);
-        await updateDoc(userRef, {
-          lastUpdate: new Date(),
-        });
-        setStreak((prevStreak) => prevStreak + 1);
-        setIsButtonActive(false);
-      } catch (error) {
-        console.error("Error updating streak:", error);
-      }
-    }
-  };
 
   useEffect(() => {
     const getCompletedCollectionByUserId = async () => {
@@ -116,14 +66,8 @@ const DashBoardPage = () => {
               </p>
               <div className="flex justify-between items-center">
                 <p className="text-2xl font-bold text-gray-400 dark:text-black">
-                  {streak} days
+                  0 days
                 </p>
-                <span
-                  onClick={updateStreak}
-                  className="rounded border p-2 cursor-pointer"
-                >
-                  + 1 day
-                </span>
               </div>
             </div>
           </div>

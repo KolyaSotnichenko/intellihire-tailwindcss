@@ -7,13 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 
-const QuestionCard: FC<IQuestion> = ({
-  id,
-  title,
-  question,
-  video,
-  isComplete,
-}) => {
+const QuestionCard: FC<IQuestion> = ({ id, title, question, video }) => {
   const [completedQuestions, setCompletedQuestions] = useState<string[]>();
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
@@ -24,7 +18,7 @@ const QuestionCard: FC<IQuestion> = ({
         const user = auth.currentUser;
 
         if (user) {
-          const completedCollectionRef = doc(db, "users", user.uid); // Reference to the "Completed" collection within the user document
+          const completedCollectionRef = doc(db, "users", user.uid);
           const docSnapshot = await getDoc(completedCollectionRef);
 
           if (docSnapshot.exists()) {
@@ -55,7 +49,7 @@ const QuestionCard: FC<IQuestion> = ({
   return (
     <Link
       href={`/dashboard/questions/${id}`}
-      className="flex flex-col gap-y-[5px]  p-4  h-full rounded-[20px] border  border-gray-400"
+      className="flex flex-col gap-y-[5px]  p-4  h-full rounded-[20px] border  border-gray-400 relative"
     >
       <p className="text-[18px] font-bold text-gray-400 dark:text-black capitalize">
         {title}
@@ -64,7 +58,7 @@ const QuestionCard: FC<IQuestion> = ({
         {question}
       </p>
       {isCompleted && (
-        <div className="flex justify-end w-full items-end">
+        <div className="absolute top-3 right-3 text-green-500">
           <p className=" text-green-500">Completed</p>
         </div>
       )}

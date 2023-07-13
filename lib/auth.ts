@@ -41,4 +41,5 @@ export const signIn = async (email: string, password: string) => {
 
 export const logout = () => {
     auth.signOut()
+    
 }

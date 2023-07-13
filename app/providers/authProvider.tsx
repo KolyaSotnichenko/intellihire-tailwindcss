@@ -10,6 +10,7 @@ import {
   useState,
 } from "react";
 import { useRouter } from "next/navigation";
+import Spinner from "@/shared/Spinner";
 
 interface IAuthContextType {
   user: User | null;
@@ -47,14 +48,14 @@ export const AuthContextProvider = ({
 
   useEffect(() => {
     if (user) router.push("/dashboard");
-    // else router.push("/dashboard");
+    else router.push("/");
   }, [user]);
 
   return (
     <AuthContext.Provider value={{ user }}>
       {loading ? (
         <div className="flex flex-col justify-center items-center h-screen">
-          <p>Loading...</p>
+          <Spinner />
         </div>
       ) : (
         children
