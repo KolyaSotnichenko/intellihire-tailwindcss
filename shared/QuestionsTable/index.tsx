@@ -36,7 +36,9 @@ const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
             <th scope="col" className="px-6 py-3">
               Question Text
             </th>
-            <th scope="col" className="px-6 py-3"></th>
+            <th scope="col" className="px-6 py-3">
+              Action
+            </th>
           </tr>
         </thead>
         <tbody>
