@@ -1,6 +1,7 @@
 "use client";
 
 import QuestionCard from "@/shared/QuestionCard";
+import SearchBar from "@/shared/SearchBar";
 import { useEffect, useState } from "react";
 
 export interface IQuestion {
@@ -12,6 +13,10 @@ export interface IQuestion {
 
 const QuestionsPage = () => {
   const [questions, setQuestions] = useState<IQuestion[] | []>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filteredQuestions, setFilteredQuestions] = useState<IQuestion[] | []>(
+    []
+  );
 
   useEffect(() => {
     const getQuestions = async () => {
@@ -28,14 +33,33 @@ const QuestionsPage = () => {
     getQuestions();
   }, []);
 
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = questions.filter((question) =>
+        question.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredQuestions(filtered);
+    } else {
+      setFilteredQuestions(questions);
+    }
+  }, [searchQuery, questions]);
+
   return (
     <>
       <div className="p-4 sm:ml-64">
         <div className="p-4  rounded-lg ">
           <h1 className="text-[24px] font-bold mb-8">Questions bank</h1>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-            {questions.length !== 0 ? (
-              questions.map((question) => (
+            <div className="flex flex-col gap-y-[5px]">
+              <SearchBar
+                onChangeSearchQuery={setSearchQuery}
+                searchQuery={searchQuery}
+              />
+            </div>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+            {filteredQuestions.length > 0 ? (
+              filteredQuestions.map((question) => (
                 <QuestionCard
                   key={question.id}
                   id={question.id}

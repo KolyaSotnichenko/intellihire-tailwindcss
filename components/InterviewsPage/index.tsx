@@ -1,32 +1,23 @@
 "use client";
 
-import { db } from "@/utils/firebase";
-import { getAuth } from "firebase/auth";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import InterviewCard, { IInterviewCardProps } from "@/shared/InterviewCard";
+import SearchBar from "@/shared/SearchBar";
 import { useEffect, useState } from "react";
 
 const InterviewsPage = () => {
-  const [countCompletedQuestions, setCountCompletedQuestions] = useState<any>();
+  const [interviews, setInterviews] = useState<IInterviewCardProps[] | []>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [filteredInterviews, setFilteredInterviews] = useState<
+    IInterviewCardProps[] | []
+  >([]);
 
   useEffect(() => {
-    const getCompletedCollectionByUserId = async () => {
+    const getInterviews = async () => {
       try {
-        const auth = getAuth(); // Get Auth instance
-        const user = auth.currentUser;
-
-        if (user) {
-          const completedCollectionRef = doc(db, "users", user.uid); // Reference to the "Completed" collection within the user document
-          const docSnapshot = await getDoc(completedCollectionRef);
-
-          if (docSnapshot.exists()) {
-            console.log(docSnapshot.data());
-            setCountCompletedQuestions(docSnapshot.data().Completed.length);
-          } else {
-            console.log("User not found");
-          }
-        } else {
-          console.log("No authenticated user");
-        }
+        const res = await fetch(
+          "https://64a1641a0079ce56e2db0688.mockapi.io/interviews"
+        );
+        setInterviews(await res.json());
       } catch (error) {
         console.error(
           'Error retrieving "Completed" collection for user:',
@@ -35,8 +26,20 @@ const InterviewsPage = () => {
       }
     };
 
-    getCompletedCollectionByUserId();
+    getInterviews();
   }, []);
+
+  useEffect(() => {
+    if (searchQuery) {
+      const filtered = interviews.filter((interview) =>
+        interview.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredInterviews(filtered);
+    } else {
+      setFilteredInterviews(interviews);
+    }
+  }, [searchQuery, interviews]);
+
   return (
     <>
       <div className="p-4 sm:ml-64">
@@ -44,89 +47,38 @@ const InterviewsPage = () => {
           <h1 className="text-[24px] font-bold mb-8 capitalize">
             All interviews
           </h1>
-          {/* <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-            <div className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400">
-              <p className="text-[15px] text-gray-400 dark:text-gray-400 capitalize">
-                Completed questions
-              </p>
-              <p className="text-2xl font-bold text-gray-400 dark:text-black">
-                {countCompletedQuestions}
-              </p>
-            </div>
-            <div className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400">
-              <p className="text-[15px] text-gray-400 dark:text-gray-400 capitalize">
-                Total interview time
-              </p>
-              <p className="text-2xl font-bold text-gray-400 dark:text-black">
-                00:00
-              </p>
-            </div>
-            <div className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400">
-              <p className="text-[15px] text-gray-400 dark:text-gray-400 capitalize">
-                Current streak✨
-              </p>
-              <p className="text-2xl font-bold text-gray-400 dark:text-black">
-                0 days
-              </p>
-            </div>
-          </div> */}
-          <div className="flex items-center justify-center h-[50vh] mb-4 rounded bg-gray-50 cursor-pointer ">
-            <p className="text-2xl text-gray-400 dark:text-gray-500">
-              💎Get Pro version
-            </p>
-            <svg
-              className="w-5 h-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M13.75 6.75L19.25 12L13.75 17.25"
-                stroke="#1E2B3A"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+            <div className="flex flex-col gap-y-[5px]">
+              <SearchBar
+                onChangeSearchQuery={setSearchQuery}
+                searchQuery={searchQuery}
               />
-              <path
-                d="M19 12H4.75"
-                stroke="#1E2B3A"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-          {/*<div className="grid grid-cols-2 gap-4 mb-4">
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-            </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-            </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-            </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
             </div>
           </div>
-          <div className="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-            <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
+          <div className="relative grid sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 overflow-auto h-[80vh] mb-4 rounded cursor-pointer ">
+            {filteredInterviews.length > 0 ? (
+              filteredInterviews.map((interview) => (
+                <div key={interview.id} className="grid h-[10vh]">
+                  <InterviewCard
+                    id={interview.id}
+                    title={interview.title}
+                    description={interview.description}
+                    createdAt={interview.createdAt}
+                  />
+                </div>
+              ))
+            ) : (
+              <div role="status" className="max-w-sm animate-pulse">
+                <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-300 w-48 mb-4"></div>
+                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 max-w-[360px] mb-2.5"></div>
+                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 mb-2.5"></div>
+                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 max-w-[330px] mb-2.5"></div>
+                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 max-w-[300px] mb-2.5"></div>
+                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 max-w-[360px]"></div>
+                <span className="sr-only">Loading...</span>
+              </div>
+            )}
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-            </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-            </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-            </div>
-            <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">
-              <p className="text-2xl text-gray-400 dark:text-gray-500">+</p>
-            </div>
-          </div> */}
         </div>
       </div>
     </>
