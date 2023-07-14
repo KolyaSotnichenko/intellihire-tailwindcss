@@ -52,6 +52,7 @@ const InterviewsPage = () => {
               <SearchBar
                 onChangeSearchQuery={setSearchQuery}
                 searchQuery={searchQuery}
+                placeholder="Enter interview title..."
               />
             </div>
           </div>

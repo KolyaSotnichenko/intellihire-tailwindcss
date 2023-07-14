@@ -66,7 +66,7 @@ const AdminPanelPage = () => {
               </p>
             </div> */}
           </div>
-          <div className="h-[70vh] overflow-y-scroll mb-4 rounded bg-gray-50 cursor-pointer ">
+          <div className="h-[70vh] overflow-y-scroll mb-4 rounded bg-gray-50">
             <QuestionsTable data={questions} />
           </div>
           {/*<div className="grid grid-cols-2 gap-4 mb-4">

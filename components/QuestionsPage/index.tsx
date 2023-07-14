@@ -8,7 +8,9 @@ export interface IQuestion {
   id: string;
   title: string;
   question: string;
+  answer?: string;
   video: string;
+  path?: string;
 }
 
 const QuestionsPage = () => {
@@ -54,6 +56,7 @@ const QuestionsPage = () => {
               <SearchBar
                 onChangeSearchQuery={setSearchQuery}
                 searchQuery={searchQuery}
+                placeholder="Enter question title..."
               />
             </div>
           </div>
