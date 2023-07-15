@@ -288,17 +288,6 @@ export default function QuestionDetail() {
           console.log("Success!");
         });
 
-        await fetch(
-          `https://64a1641a0079ce56e2db0688.mockapi.io/questions/${questionData?.id}`,
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              answer: results.transcript,
-            }),
-          }
-        );
-
         if (results.transcript.length > 0) {
           const prompt = `Please give feedback on the following interview question: ${question} given the following transcript: ${
             results.transcript
@@ -370,6 +359,14 @@ export default function QuestionDetail() {
       const userDocRef = doc(db, `users/${auth.currentUser?.uid}`);
       await updateDoc(userDocRef, {
         Completed: arrayUnion(questionData?.id),
+      });
+
+      await updateDoc(userDocRef, {
+        Answers: arrayUnion({
+          questionId: questionData?.id,
+          answer: transcript,
+          feedback: generatedFeedback,
+        }),
       });
 
       setIsCompleted(true);

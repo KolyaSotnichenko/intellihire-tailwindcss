@@ -8,9 +8,7 @@ export interface IQuestion {
   id: string;
   title: string;
   question: string;
-  answer?: string;
   video: string;
-  path?: string;
 }
 
 const QuestionsPage = () => {

@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import InterviewTable from "./InterviewTable";
 import { IQuestion } from "@/components/QuestionsPage";
+import QuestionInInterviewCard from "@/shared/QuestionInInterviewCard";
 
 interface IInterviewData {
   id: string;
@@ -73,8 +74,29 @@ const InterviewDetail = () => {
             {interviewData?.description}
           </h1>
         </div>
-        <div className=" m-4 h-[40vh] overflow-y-scroll mb-4 rounded bg-gray-50 ">
-          <InterviewTable data={questionsData} />
+        <div className=" grid gap-4 m-4 h-[60vh] overflow-y-scroll mb-4 ">
+          {questionsData ? (
+            questionsData.map((item) => (
+              <div key={item.id} className="grid w-full gap-x-4 gap-y-2">
+                <QuestionInInterviewCard
+                  id={item.id}
+                  title={item.title}
+                  question={item.question}
+                  video={item.video}
+                />
+              </div>
+            ))
+          ) : (
+            <div role="status" className="max-w-sm animate-pulse">
+              <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-300 w-48 mb-4"></div>
+              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 max-w-[360px] mb-2.5"></div>
+              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 mb-2.5"></div>
+              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 max-w-[330px] mb-2.5"></div>
+              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 max-w-[300px] mb-2.5"></div>
+              <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 max-w-[360px]"></div>
+              <span className="sr-only">Loading...</span>
+            </div>
+          )}
         </div>
       </div>
     </AnimatePresence>
