@@ -2,7 +2,8 @@
 
 import { db } from "@/utils/firebase";
 import { getAuth } from "firebase/auth";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const DashBoardPage = () => {
@@ -44,23 +45,38 @@ const DashBoardPage = () => {
         <div className="p-4  rounded-lg">
           <h1 className="text-[24px] font-bold mb-8 capitalize">Home</h1>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-            <div className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400"
+            >
               <p className="text-[15px] text-gray-400 dark:text-gray-400 capitalize">
                 Completed questions
               </p>
               <p className="text-2xl font-bold text-gray-400 dark:text-black">
                 {countCompletedQuestions ? countCompletedQuestions : 0}
               </p>
-            </div>
-            <div className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400">
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400"
+            >
               <p className="text-[15px] text-gray-400 dark:text-gray-400 capitalize">
                 Total interview time
               </p>
               <p className="text-2xl font-bold text-gray-400 dark:text-black">
                 00:00
               </p>
-            </div>
-            <div className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400">
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col gap-y-[5px]  p-4  h-24 rounded-[20px] border  border-gray-400"
+            >
               <p className="text-[15px] text-gray-400 dark:text-gray-400 capitalize">
                 Current streak✨
               </p>
@@ -69,10 +85,15 @@ const DashBoardPage = () => {
                   0 days
                 </p>
               </div>
-            </div>
+            </motion.div>
           </div>
           <div className="hidden md:flex items-center justify-center h-[70vh] mb-4 rounded  cursor-pointer ">
-            <section className="rounded-[20px] bg-gray-900">
+            <motion.section
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="rounded-[20px] bg-gray-900"
+            >
               <div className="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
                 <div className="font-light text-gray-500 sm:text-lg dark:text-gray-400">
                   <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
@@ -110,7 +131,7 @@ const DashBoardPage = () => {
                   </p>
                 </div>
               </div>
-            </section>
+            </motion.section>
           </div>
           {/*<div className="grid grid-cols-2 gap-4 mb-4">
             <div className="flex items-center justify-center rounded bg-gray-50 h-28 dark:bg-gray-800">

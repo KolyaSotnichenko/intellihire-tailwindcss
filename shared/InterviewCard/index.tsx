@@ -1,5 +1,6 @@
 import { formatDate } from "@/utils/formatDate";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { FC } from "react";
 
 export interface IInterviewCardProps {
@@ -18,7 +19,12 @@ const InterviewCard: FC<IInterviewCardProps> = ({
   interviewQuestions,
 }) => {
   return (
-    <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow ">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+      className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow "
+    >
       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
         {title}
       </h5>
@@ -36,7 +42,7 @@ const InterviewCard: FC<IInterviewCardProps> = ({
           {formatDate(parseInt(createdAt))}
         </p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

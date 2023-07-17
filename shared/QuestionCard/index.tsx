@@ -1,6 +1,7 @@
 "use client";
 
 import { IQuestion } from "@/components/QuestionsPage";
+import { motion } from "framer-motion";
 import { db } from "@/utils/firebase";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
@@ -47,22 +48,30 @@ const QuestionCard: FC<IQuestion> = ({ id, title, question, video }) => {
   }, [completedQuestions]);
 
   return (
-    <Link
-      href={`/dashboard/questions/${id}`}
-      className="flex flex-col gap-y-[5px]  p-4  h-full rounded-[20px] border  border-gray-400 relative"
+    <motion.div
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
     >
-      <p className="text-[18px] font-bold text-gray-400 dark:text-black capitalize">
-        {title}
-      </p>
-      <p className="text-[18px] font-bold text-gray-400 dark:text-gray-400">
-        {question}
-      </p>
-      {isCompleted && (
-        <div className="absolute top-3 right-3 text-green-500">
-          <p className=" text-green-500">Completed</p>
-        </div>
-      )}
-    </Link>
+      <Link
+        href={`/dashboard/questions/${id}`}
+        className="flex flex-col gap-y-[5px]  p-4  h-full rounded-[20px] border  border-gray-400 relative"
+      >
+        <p className="text-[18px] font-bold text-gray-400 dark:text-black capitalize">
+          {title}
+        </p>
+        <p className="text-[18px] font-bold text-gray-400 dark:text-gray-400">
+          {question}
+        </p>
+        {isCompleted && (
+          <div className="absolute top-3 right-3 text-green-500">
+            <p className=" text-green-500">Completed</p>
+          </div>
+        )}
+      </Link>
+    </motion.div>
   );
 };
 

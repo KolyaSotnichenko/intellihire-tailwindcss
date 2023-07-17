@@ -58,7 +58,7 @@ const QuestionsPage = () => {
               />
             </div>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-4">
             {filteredQuestions.length > 0 ? (
               filteredQuestions.map((question) => (
                 <QuestionCard
