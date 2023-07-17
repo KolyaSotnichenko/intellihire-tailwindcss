@@ -3,7 +3,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import InterviewTable from "./InterviewTable";
 import { IQuestion } from "@/components/QuestionsPage";
 import QuestionInInterviewCard, {
   IAnswersData,
