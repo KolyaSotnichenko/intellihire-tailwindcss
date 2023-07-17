@@ -6,7 +6,7 @@ export interface IInterviewCardProps {
   title: string;
   description: string;
   createdAt: string;
-  interviewQuestions?: [];
+  interviewQuestions?: string[];
 }
 
 const InterviewCard: FC<IInterviewCardProps> = ({

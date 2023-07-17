@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "./**/**/*.{js,ts,jsx,tsx,mdx}",
+    './node_modules/@uc-react-ui/multiselect/**/*.{js,ts,jsx,tsx}'
   ],
   future: {
     hoverOnlyWhenSupported: true,

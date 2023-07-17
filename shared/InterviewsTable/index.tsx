@@ -1,17 +1,17 @@
-import { IQuestion } from "@/components/QuestionsPage";
 import { FC, useState } from "react";
-import EditQuestionModal from "../EditQuestionModal";
+import { IInterviewCardProps } from "../InterviewCard";
+import EditInterviewModal from "../EditInterviewModal";
 
-interface IQuestionTableProps {
-  data: IQuestion[];
+interface IInterviewTableProps {
+  data: IInterviewCardProps[];
 }
 
-const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
+const InterviewsTable: FC<IInterviewTableProps> = ({ data }) => {
   const [openEditModal, setOpenEditModel] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<IQuestion>();
+  const [selectedItem, setSelectedItem] = useState<IInterviewCardProps>();
 
-  const handleRemoveQuestion = (id: string) => {
-    fetch(`https://64a1641a0079ce56e2db0688.mockapi.io/questions/${id}`, {
+  const handleRemoveInterview = (id: string) => {
+    fetch(`https://64a1641a0079ce56e2db0688.mockapi.io/interviews/${id}`, {
       method: "DELETE",
     })
       .then((response) => {
@@ -32,10 +32,10 @@ const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Question Title
+              Interview Title
             </th>
             <th scope="col" className="px-6 py-3">
-              Question Text
+              Interview Descriptions
             </th>
             <th scope="col" className="px-6 py-3">
               Action
@@ -63,7 +63,9 @@ const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
                   >
                     {item.title}
                   </th>
-                  <td className="px-6 py-4 text-gray-800">{item.question}</td>
+                  <td className="px-6 py-4 text-gray-800">
+                    {item.description}
+                  </td>
                   <td className="px-6 py-4 flex gap-x-5">
                     <button
                       className="text-gray-900 hover:text-gray-500"
@@ -72,17 +74,19 @@ const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
                       Edit
                     </button>
                     {openEditModal && selectedItem && (
-                      <EditQuestionModal
+                      <EditInterviewModal
                         id={selectedItem.id}
                         title={selectedItem.title}
-                        text={selectedItem.question}
-                        video={selectedItem.video}
+                        description={selectedItem.description}
+                        interviewQuestions={
+                          selectedItem.interviewQuestions || []
+                        }
                         handleOpen={setOpenEditModel}
                       />
                     )}
                     <button
                       className="text-red-500 hover:text-gray-500"
-                      onClick={() => handleRemoveQuestion(item.id)}
+                      onClick={() => handleRemoveInterview(item.id)}
                     >
                       Remove
                     </button>
@@ -91,7 +95,7 @@ const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
               );
             })
           ) : (
-            <p>No questions</p>
+            <p>No interviews</p>
           )}
         </tbody>
       </table>
@@ -99,4 +103,4 @@ const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
   );
 };
 
-export default QuestionsTable;
+export default InterviewsTable;

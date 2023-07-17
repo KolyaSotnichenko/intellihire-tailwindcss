@@ -50,7 +50,7 @@ const EditQuestionModal: FC<IEditModalProps> = ({
   return (
     <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center h-screen">
       <div className="relative w-full max-w-2xl max-h-full">
-        <div className="relative bg-white rounded-lg shadow dark:bg-gray-100">
+        <div className="relative bg-white rounded-lg shadow ">
           <div className="flex items-start justify-between p-4 border-b rounded-t border-gray-300">
             <h3 className="text-xl font-semibold text-gray-90">
               Edit question
