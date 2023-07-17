@@ -113,9 +113,9 @@ const SideBar = () => {
                   <span className="flex-1 ml-3 whitespace-nowrap">
                     All interviews
                   </span>
-                  <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                  {/* <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
                     Pro
-                  </span>
+                  </span> */}
                 </Link>
               </li>
               <li>
