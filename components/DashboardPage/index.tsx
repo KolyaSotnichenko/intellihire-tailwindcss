@@ -68,7 +68,7 @@ const DashBoardPage = () => {
                 Total interview time
               </p>
               <p className="text-2xl font-bold text-gray-400 dark:text-black">
-                00:00
+                In development
               </p>
             </motion.div>
             <motion.div
@@ -82,7 +82,7 @@ const DashBoardPage = () => {
               </p>
               <div className="flex justify-between items-center">
                 <p className="text-2xl font-bold text-gray-400 dark:text-black">
-                  0 days
+                  In development
                 </p>
               </div>
             </motion.div>
