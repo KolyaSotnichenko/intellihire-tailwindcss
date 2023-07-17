@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import { IInterviewCardProps } from "../InterviewCard";
 import EditInterviewModal from "../EditInterviewModal";
+import { formatDate } from "@/utils/formatDate";
 
 interface IInterviewTableProps {
   data: IInterviewCardProps[];
@@ -38,6 +39,9 @@ const InterviewsTable: FC<IInterviewTableProps> = ({ data }) => {
               Interview Descriptions
             </th>
             <th scope="col" className="px-6 py-3">
+              Created at
+            </th>
+            <th scope="col" className="px-6 py-3">
               Action
             </th>
           </tr>
@@ -65,6 +69,9 @@ const InterviewsTable: FC<IInterviewTableProps> = ({ data }) => {
                   </th>
                   <td className="px-6 py-4 text-gray-800">
                     {item.description}
+                  </td>
+                  <td className="px-6 py-4 text-gray-800">
+                    {formatDate(parseInt(item.createdAt))}
                   </td>
                   <td className="px-6 py-4 flex gap-x-5">
                     <button
