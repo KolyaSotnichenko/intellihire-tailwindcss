@@ -7,7 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
 
-interface IAnswersData {
+export interface IAnswersData {
   questionId: string;
   answer: string;
   feedback: string;

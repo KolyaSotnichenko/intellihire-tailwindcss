@@ -5,7 +5,12 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import InterviewTable from "./InterviewTable";
 import { IQuestion } from "@/components/QuestionsPage";
-import QuestionInInterviewCard from "@/shared/QuestionInInterviewCard";
+import QuestionInInterviewCard, {
+  IAnswersData,
+} from "@/shared/QuestionInInterviewCard";
+import { db } from "@/utils/firebase";
+import { getAuth } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 interface IInterviewData {
   id: string;
@@ -18,8 +23,15 @@ const InterviewDetail = () => {
   const [interviewData, setInterviewData] = useState<IInterviewData>();
   const [questionsDataIds, setQuestionsDataIds] = useState<string[]>([]);
   const [questionsData, setQuestionsData] = useState<IQuestion[] | []>([]);
+  const [completedQuestions, setCompletedQuestions] = useState<string[]>();
+  const [answers, setAnswers] = useState<IAnswersData[]>();
+  const [generatedFeedback, setGeneratedFeedback] = useState<string>("");
 
   const params = useParams();
+
+  const completedInterview = questionsDataIds.every((item) =>
+    completedQuestions?.includes(item)
+  );
 
   useEffect(() => {
     const getInterview = async () => {
@@ -60,7 +72,101 @@ const InterviewDetail = () => {
     getQuestions();
   }, [questionsDataIds]);
 
-  console.log(questionsData);
+  useEffect(() => {
+    const getCompletedCollectionByUserId = async () => {
+      try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (user) {
+          const completedCollectionRef = doc(db, "users", user.uid);
+          const docSnapshot = await getDoc(completedCollectionRef);
+
+          if (docSnapshot.exists()) {
+            setCompletedQuestions(docSnapshot.data().Completed);
+          } else {
+            console.log("User not found");
+          }
+        } else {
+          console.log("No authenticated user");
+        }
+      } catch (error) {
+        console.error(
+          'Error retrieving "Completed" collection for user:',
+          error
+        );
+      }
+    };
+
+    getCompletedCollectionByUserId();
+  }, []);
+
+  useEffect(() => {
+    const getAnswers = async () => {
+      try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (user) {
+          const answersCollectionRef = doc(db, "users", user.uid);
+          const docSnapshot = await getDoc(answersCollectionRef);
+
+          if (docSnapshot.exists()) {
+            setAnswers(docSnapshot.data().Answers);
+          } else {
+            console.log("User not found");
+          }
+        } else {
+          console.log("No authenticated user");
+        }
+      } catch (error) {}
+    };
+
+    getAnswers();
+  }, []);
+
+  const handleGetFeedback = async () => {
+    const questions: string[] = questionsData.map((item) => item.question);
+    const transcripts: string[] = answers
+      ? answers.map((item) => item.answer)
+      : [];
+
+    const prompt = `Please provide feedback on the following answers: ${transcripts} to interview questions: ${questions.map(
+      (item) => `${item},`
+    )}.`;
+
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    // This data is a ReadableStream
+    const data = response.body;
+    if (!data) {
+      return;
+    }
+
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value);
+      setGeneratedFeedback((prev: any) => prev + chunkValue);
+    }
+  };
+
   return (
     <AnimatePresence>
       <div className="p-4 sm:ml-64">
@@ -98,6 +204,27 @@ const InterviewDetail = () => {
             </div>
           )}
         </div>
+        {completedInterview && generatedFeedback === "" && (
+          <div className="p-4 w-full flex justify-center">
+            <button
+              onClick={handleGetFeedback}
+              type="button"
+              className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            >
+              Get feedback
+            </button>
+          </div>
+        )}
+        {generatedFeedback !== "" && (
+          <>
+            <h2 className="m-4 text-xl font-semibold text-left text-[#1D2B3A]">
+              Feedback
+            </h2>
+            <div className=" m-4 text-sm flex gap-2.5 rounded-lg border border-[#EEEEEE] bg-[#FAFAFA] p-4 leading-6 text-gray-900 min-h-[100px]">
+              <p className="prose prose-sm max-w-none">{generatedFeedback}</p>
+            </div>
+          </>
+        )}
       </div>
     </AnimatePresence>
   );
