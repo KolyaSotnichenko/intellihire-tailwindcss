@@ -16,7 +16,7 @@ import { db } from "@/utils/firebase";
 const SideBar = () => {
   const [isDesktop, setIsDesktop] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(!isDesktop);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<string>("false");
 
   const user = getAuth().currentUser;
 
@@ -149,7 +149,7 @@ const SideBar = () => {
             </a> */}
           </div>
           <div>
-            {isAdmin && (
+            {isAdmin === "true" && (
               <Link
                 href="/dashboard/god"
                 className="flex items-center p-2 text-black hover:text-white rounded-lg hover:bg-gray-200 cursor-pointer"

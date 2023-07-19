@@ -48,7 +48,17 @@ const InterviewDetail = () => {
   }, []);
 
   useEffect(() => {
-    if (interviewData) setQuestionsDataIds(interviewData.interviewQuestions);
+    if (interviewData) {
+      const matchedResult = interviewData.interviewQuestions.map((item) => {
+        const matchResult = item.match(/^\d+/);
+        if (matchResult) {
+          return matchResult[0];
+        }
+        return "";
+      });
+
+      setQuestionsDataIds(matchedResult);
+    }
   }, [interviewData]);
 
   useEffect(() => {

@@ -9,6 +9,7 @@ import { db } from "@/utils/firebase";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import InterviewsTable from "@/shared/InterviewsTable";
 import AddInterviewModal from "@/shared/AddInterviewModal";
+import UsersTable from "@/shared/UsersTable";
 
 const AdminPanelPage = () => {
   const [numberOfQuestions, setNumberOfQuestions] = useState<number>(0);
@@ -16,6 +17,7 @@ const AdminPanelPage = () => {
   const [numberOfUsers, setNumberOfUsers] = useState<number>(0);
   const [questions, setQuestions] = useState<[]>([]);
   const [interviews, setInterviews] = useState<[]>([]);
+  const [users, setUsers] = useState<any[]>([]);
 
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
   const [openAddInterviewModal, setOpenAddInterviewModal] =
@@ -75,6 +77,7 @@ const AdminPanelPage = () => {
         });
 
         setNumberOfUsers(users.length);
+        setUsers(users);
       } catch (error) {
         console.error(
           'Error retrieving "Completed" collection for user:',
@@ -85,6 +88,8 @@ const AdminPanelPage = () => {
 
     getUsers();
   }, []);
+
+  console.log(users);
 
   return (
     <>
@@ -128,6 +133,9 @@ const AdminPanelPage = () => {
                 0 days
               </p>
             </div> */}
+          </div>
+          <div className="h-[40vh] flex flex-col gap-y-4 overflow-y-scroll mb-4 rounded ">
+            <UsersTable data={users} />
           </div>
           <div className="h-[40vh] flex flex-col gap-y-4 overflow-y-scroll mb-4 rounded ">
             <Image

@@ -13,7 +13,7 @@ export const signUp = async(email: string, password: string) => {
 
         const userDoc = {
             email: result.user.email,
-            isAdmin: false
+            isAdmin: 'false'
         }
 
         const usersCollection = collection(db, 'users'); // Assuming you have initialized the Firestore 'db' instance

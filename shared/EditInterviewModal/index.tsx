@@ -26,8 +26,6 @@ const EditInterviewModal: FC<IEditModalProps> = ({
 
   const [optionList, setOptionList] = useState<{ label: string }[]>([]);
 
-  console.log(interviewQuestionsIds);
-
   const props: MultiSelectProps = {
     label: "Question IDs",
     name: "ids",
@@ -37,8 +35,6 @@ const EditInterviewModal: FC<IEditModalProps> = ({
     value: interviewQuestionsIds,
     valueChange: setInterviewQuestionsIds,
   };
-
-  console.log(interviewTitle);
 
   useEffect(() => {
     const getQuestions = async () => {
@@ -60,7 +56,9 @@ const EditInterviewModal: FC<IEditModalProps> = ({
   }, []);
 
   useEffect(() => {
-    const newArray = questions.map((item) => ({ label: item.id }));
+    const newArray = questions.map((item) => ({
+      label: `${item.id} - ${item.question}`,
+    }));
     setOptionList(newArray);
   }, [questions]);
 

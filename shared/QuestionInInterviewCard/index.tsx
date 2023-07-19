@@ -95,7 +95,7 @@ const QuestionInInterviewCard: FC<IQuestion> = ({
   return (
     <Link
       href={`/dashboard/questions/${id}`}
-      className={`flex flex-row justify-between  p-4 w-full  h-full rounded-[20px] border ${
+      className={`flex flex-wrap justify-between  p-4 w-full  h-full rounded-[20px] border ${
         isCompleted ? "border-green-400" : "border-gray-400"
       } relative`}
     >

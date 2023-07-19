@@ -47,7 +47,9 @@ const AddInterviewModal: FC<IAddModalProps> = ({ handleOpen }) => {
   }, []);
 
   useEffect(() => {
-    const newArray = questions.map((item) => ({ label: item.id }));
+    const newArray = questions.map((item) => ({
+      label: `${item.id} - ${item.question}`,
+    }));
     setOptionList(newArray);
   }, [questions]);
 
@@ -146,7 +148,7 @@ const AddInterviewModal: FC<IAddModalProps> = ({ handleOpen }) => {
                   Interview description
                 </label>
               </div>
-              <div className="relative z-0 w-full mb-6 group">
+              <div className="relative text-gray-400 z-0 w-full mb-6 group">
                 <MultiSelect {...props} />
               </div>
             </form>
