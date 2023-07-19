@@ -66,7 +66,9 @@ const UsersTable: FC<IUsersTableProps> = ({ data }) => {
                         ? "text-green-400"
                         : "text-red-400"
                     } capitalize`}
-                  >{`${item.isAdmin}`}</td>
+                  >
+                    {item.isAdmin}
+                  </td>
                   <td className="px-6 py-4 text-gray-800">
                     {item.Completed.length}
                   </td>

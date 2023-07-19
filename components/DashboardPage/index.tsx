@@ -21,7 +21,6 @@ const DashBoardPage = () => {
           const docSnapshot = await getDoc(completedCollectionRef);
 
           if (docSnapshot.exists()) {
-            console.log(docSnapshot.data());
             setCountCompletedQuestions(docSnapshot.data().Completed.length);
           } else {
             console.log("User not found");
