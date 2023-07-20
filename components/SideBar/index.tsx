@@ -170,8 +170,8 @@ const SideBar = () => {
                 description="Payment for subscription"
                 currency="USD"
                 orderId={user.uid}
-                // result_url="http://localhost:3000/subscription-success"
-                server_url="http://server.domain.com/liqpay"
+                result_url="https://intellihire-beta.vercel.app/subscription-success"
+                server_url="https://intellihire-beta.vercel.app/api/liqpay"
                 product_description="IntelliHire Pro"
                 style={{ margin: "8px" }}
                 disabled={false}
