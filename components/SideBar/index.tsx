@@ -12,6 +12,20 @@ import dashboardIcon from "../../shared/assets/dashboard.svg";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
+//@ts-ignore
+import { LiqPaySubscribe } from "react-liqpay";
+
+const payInfo = {
+  amount: 1,
+  currency: "USD",
+  title: "Get Pro",
+};
+
+const ButtonComponent = () => (
+  <button className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+    {`${payInfo.title}`}
+  </button>
+);
 
 const SideBar = () => {
   const [isDesktop, setIsDesktop] = useState<boolean>(false);
@@ -145,37 +159,30 @@ const SideBar = () => {
             <p className="mb-3 text-sm text-gray-900">
               Be among the first to try out our revolutionary IntelliHire Beta!
             </p>
-            {/* <a
-              className="text-sm text-blue-800 underline font-medium hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
-              href="#"
-            >
-              Turn new navigation off
-            </a> */}
           </div>
-          {isPro === "false" && (
+          {isPro === "false" ? (
             <div className="flex justify-center">
-              <form
-                method="POST"
-                accept-charset="utf-8"
-                target="_blank"
-                action="https://www.liqpay.ua/api/3/checkout"
-              >
-                <input
-                  type="hidden"
-                  name="data"
-                  value="eyJ2ZXJzaW9uIjozLCJhY3Rpb24iOiJzdWJzY3JpYmUiLCJhbW91bnQiOiIxIiwiY3VycmVuY3kiOiJVU0QiLCJkZXNjcmlwdGlvbiI6IlN1YnNjcmlwdGlvbiIsInB1YmxpY19rZXkiOiJzYW5kYm94X2k2OTgzNDc0MjMwOCIsImxhbmd1YWdlIjoiZW4iLCJyZXN1bHRfdXJsIjoiaHR0cHM6Ly9pbnRlbGxpaGlyZS1iZXRhLnZlcmNlbC5hcHAvc3Vic2NyaXB0aW9uLXN1Y2Nlc3MiLCJzdWJzY3JpYmUiOjEsInN1YnNjcmliZV9kYXRlX3N0YXJ0Ijoibm93Iiwic3Vic2NyaWJlX3BlcmlvZGljaXR5IjoibW9udGgifQ=="
-                />
-                <input
-                  type="hidden"
-                  name="signature"
-                  value="VPLp2IP0IoBDqfHV9+YjzOsqVgE="
-                />
-                <button className="bg-green-500 hover:bg-green-600 text-white inline-block text-center px-6 py-2 font-semibold rounded-md shadow-md cursor-pointer">
-                  <span className="inline-block align-middle ml-2">
-                    Get PRO
-                  </span>
-                </button>
-              </form>
+              <LiqPaySubscribe
+                publicKey="sandbox_i69834742308"
+                privateKey="sandbox_v078rEMfnp0UKkMYuGtZXtgvNizxiWf5h2Ho4onm"
+                amount="1"
+                subscribePeriodicity="month"
+                description="Payment for subscription"
+                currency="USD"
+                orderId={user?.uid}
+                result_url="https://intellihire-beta.vercel.app/subscription-success"
+                server_url="https://intellihire-beta.vercel.app/"
+                product_description="IntelliHire Pro"
+                style={{ margin: "8px" }}
+                disabled={false}
+                extra={[<ButtonComponent key="1" />]}
+              />
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <button className="bg-color-red font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                Cancel subscription
+              </button>
             </div>
           )}
           <div>
