@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add @types/react-liqpay
+  /usr/local/bin/node /usr/local/bin/yarn add @types/liqpay
 
 PATH: 
   /usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Library/Apple/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Users/kolyasotnichenko/openmpi/bin:/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home/bin
@@ -14,7 +14,7 @@ Platform:
   darwin arm64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2freact-liqpay: Not found
+  Error: https://registry.yarnpkg.com/@types%2fliqpay: Not found
       at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66138:18)
       at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140883:22)
       at Request.emit (node:events:513:28)
@@ -55,6 +55,7 @@ npm manifest:
       "firebase": "^9.23.0",
       "formidable": "^2.1.1",
       "framer-motion": "^10.12.5",
+      "liqpay": "^0.0.1",
       "next": "13.4.4",
       "openai": "^3.2.1",
       "react": "18.2.0",
@@ -2692,6 +2693,11 @@ Lockfile:
     version "1.2.4"
     resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
     integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
+  
+  liqpay@^0.0.1:
+    version "0.0.1"
+    resolved "https://registry.yarnpkg.com/liqpay/-/liqpay-0.0.1.tgz#30bd632ba4118d81aef290afe3c708d3cb4bb527"
+    integrity sha512-VYBCDXFJIS2FUJcha4OKfBPHzlKlBuOsuQowQrZ2RNAmDV6Jh8LWbWS/8o40005yONb2u5hFjqQEYO61avARfw==
   
   locate-path@^6.0.0:
     version "6.0.0"

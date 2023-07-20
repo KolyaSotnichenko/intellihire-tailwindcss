@@ -66,6 +66,10 @@ const SideBar = () => {
     setIsDesktop(window.innerWidth >= 768);
   }, []);
 
+  const handleCancelSubscription = async () => {
+    await fetch("/api/cancel-subscription");
+  };
+
   return (
     <>
       <button
@@ -171,7 +175,7 @@ const SideBar = () => {
                 currency="USD"
                 orderId={user?.uid}
                 result_url="https://intellihire-beta.vercel.app/subscription-success"
-                server_url="https://intellihire-beta.vercel.app/"
+                server_url="/"
                 product_description="IntelliHire Pro"
                 style={{ margin: "8px" }}
                 disabled={false}
@@ -180,7 +184,10 @@ const SideBar = () => {
             </div>
           ) : (
             <div className="flex justify-center">
-              <button className="bg-color-red font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+              <button
+                onClick={handleCancelSubscription}
+                className="bg-color-red font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+              >
                 Cancel subscription
               </button>
             </div>

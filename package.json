@@ -26,6 +26,7 @@
     "firebase": "^9.23.0",
     "formidable": "^2.1.1",
     "framer-motion": "^10.12.5",
+    "liqpay": "^0.0.1",
     "next": "13.4.4",
     "openai": "^3.2.1",
     "react": "18.2.0",
