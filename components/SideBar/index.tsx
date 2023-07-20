@@ -162,21 +162,28 @@ const SideBar = () => {
           </div>
           <div>
             {user && (
-              <LiqPaySubscribe
-                publicKey={process.env.NEXT_PUBLIC_LIQPAY_PUBLIC_KEY}
-                privateKey={process.env.NEXT_PUBLIC_LIQPAY_PRIVATE_KEY}
-                amount="3"
-                subscribePeriodicity="month"
-                description="Payment for subscription"
-                currency="USD"
-                orderId={user.uid}
-                result_url="https://intellihire-beta.vercel.app/subscription-success"
-                server_url="https://intellihire-beta.vercel.app/api/liqpay"
-                product_description="IntelliHire Pro"
-                style={{ margin: "8px" }}
-                disabled={false}
-                extra={[<ButtonComponent key="1" />]}
-              />
+              <form
+                method="POST"
+                accept-charset="utf-8"
+                target="_blank"
+                action="https://www.liqpay.ua/api/3/checkout"
+              >
+                <input
+                  type="hidden"
+                  name="data"
+                  value="eyJ2ZXJzaW9uIjozLCJhY3Rpb24iOiJzdWJzY3JpYmUiLCJhbW91bnQiOiIxIiwiY3VycmVuY3kiOiJVU0QiLCJkZXNjcmlwdGlvbiI6IlN1YnNjcmlwdGlvbiIsInB1YmxpY19rZXkiOiJzYW5kYm94X2k2OTgzNDc0MjMwOCIsImxhbmd1YWdlIjoiZW4iLCJzZXJ2ZXJfdXJsIjoiaHR0cHM6Ly9pbnRlbGxpaGlyZS1iZXRhLnZlcmNlbC5hcHAvYXBpL2xpcXBheSIsInJlc3VsdF91cmwiOiJodHRwczovL2ludGVsbGloaXJlLWJldGEudmVyY2VsLmFwcC9zdWJzY3JpcHRpb24tc3VjY2VzcyIsInN1YnNjcmliZSI6MSwic3Vic2NyaWJlX2RhdGVfc3RhcnQiOiJub3ciLCJzdWJzY3JpYmVfcGVyaW9kaWNpdHkiOiJtb250aCJ9"
+                />
+                <input
+                  type="hidden"
+                  name="signature"
+                  value="3dEDwMXyTzv9a6ZdDRcPqh5CF0M="
+                />
+                <button className="bg-green-500 hover:bg-green-600 text-white inline-block text-center px-6 py-2 font-semibold rounded-md shadow-md cursor-pointer">
+                  <span className="inline-block align-middle ml-2">
+                    Get Pro
+                  </span>
+                </button>
+              </form>
             )}
             {isAdmin === "true" && (
               <Link

@@ -10,9 +10,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     // ... (your code to handle the payment data)
 
     // Send a response back to LiqPay to acknowledge the successful processing of data
-    res.status(200).json({ status: 'success' });
+    res.status(200).json({ data });
   } else {
-    // Handle other HTTP methods if necessary
     res.status(405).end();
   }
 }
