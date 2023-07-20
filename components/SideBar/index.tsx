@@ -153,7 +153,7 @@ const SideBar = () => {
             </a> */}
           </div>
           {isPro === "false" && (
-            <div>
+            <div className="flex justify-center">
               <form
                 method="POST"
                 accept-charset="utf-8"
