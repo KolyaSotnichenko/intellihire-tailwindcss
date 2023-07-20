@@ -6,7 +6,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect } from "react";
 
-const Subscription = () => {
+const SubscriptionSuccess = () => {
   useEffect(() => {
     const setProStatus = async () => {
       const user = getAuth().currentUser;
@@ -53,4 +53,4 @@ const Subscription = () => {
   );
 };
 
-export default Subscription;
+export default SubscriptionSuccess;
