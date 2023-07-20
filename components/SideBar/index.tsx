@@ -12,8 +12,6 @@ import dashboardIcon from "../../shared/assets/dashboard.svg";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
-//@ts-ignore
-import { LiqPaySubscribe } from "react-liqpay";
 
 const payInfo = {
   amount: 1,
@@ -65,10 +63,6 @@ const SideBar = () => {
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);
   }, []);
-
-  const handleCancelSubscription = async () => {
-    await fetch("/api/cancel-subscription");
-  };
 
   return (
     <>
@@ -164,34 +158,6 @@ const SideBar = () => {
               Be among the first to try out our revolutionary IntelliHire Beta!
             </p>
           </div>
-          {isPro === "false" ? (
-            <div className="flex justify-center">
-              <LiqPaySubscribe
-                publicKey="sandbox_i69834742308"
-                privateKey="sandbox_v078rEMfnp0UKkMYuGtZXtgvNizxiWf5h2Ho4onm"
-                amount="1"
-                subscribePeriodicity="month"
-                description="Payment for subscription"
-                currency="USD"
-                orderId={user?.uid}
-                result_url="https://intellihire-beta.vercel.app/subscription-success"
-                server_url="/"
-                product_description="IntelliHire Pro"
-                style={{ margin: "8px" }}
-                disabled={false}
-                extra={[<ButtonComponent key="1" />]}
-              />
-            </div>
-          ) : (
-            <div className="flex justify-center">
-              <button
-                onClick={handleCancelSubscription}
-                className="bg-color-red font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-              >
-                Cancel subscription
-              </button>
-            </div>
-          )}
           <div>
             {isAdmin === "true" && (
               <Link
