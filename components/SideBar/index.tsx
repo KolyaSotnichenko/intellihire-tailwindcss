@@ -12,6 +12,8 @@ import dashboardIcon from "../../shared/assets/dashboard.svg";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
+//@ts-ignore
+import { LiqPaySubscribe } from "react-liqpay";
 
 const payInfo = {
   amount: 1,
@@ -159,6 +161,23 @@ const SideBar = () => {
             </p>
           </div>
           <div>
+            {user && (
+              <LiqPaySubscribe
+                publicKey={process.env.NEXT_PUBLIC_LIQPAY_PUBLIC_KEY}
+                privateKey={process.env.NEXT_PUBLIC_LIQPAY_PRIVATE_KEY}
+                amount="3"
+                subscribePeriodicity="month"
+                description="Payment for subscription"
+                currency="USD"
+                orderId={user.uid}
+                // result_url="http://localhost:3000/subscription-success"
+                server_url="http://server.domain.com/liqpay"
+                product_description="IntelliHire Pro"
+                style={{ margin: "8px" }}
+                disabled={false}
+                extra={[<ButtonComponent key="1" />]}
+              />
+            )}
             {isAdmin === "true" && (
               <Link
                 href="/dashboard/god"
