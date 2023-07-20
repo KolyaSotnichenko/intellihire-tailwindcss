@@ -10,13 +10,14 @@ import questionsIcon from "../../shared/assets/questions.svg";
 import interviewsIcon from "../../shared/assets/interviews.svg";
 import dashboardIcon from "../../shared/assets/dashboard.svg";
 import { getAuth } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 
 const SideBar = () => {
   const [isDesktop, setIsDesktop] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(!isDesktop);
   const [isAdmin, setIsAdmin] = useState<string>("false");
+  const [isPro, setIsPro] = useState<string>("false");
 
   const user = getAuth().currentUser;
 
@@ -29,6 +30,7 @@ const SideBar = () => {
 
           if (docSnapshot.exists()) {
             setIsAdmin(docSnapshot.data().isAdmin);
+            setIsPro(docSnapshot.data()?.isPro);
           } else {
             console.log("User not found");
           }
@@ -105,7 +107,7 @@ const SideBar = () => {
               </li>
               <li>
                 <Link
-                  href="/dashboard/interviews"
+                  href="/get-pro"
                   onClick={() => setIsOpen(!isOpen)}
                   className="flex items-center p-2 text-black hover:text-white rounded-lg hover:bg-gray-200"
                 >
@@ -113,9 +115,11 @@ const SideBar = () => {
                   <span className="flex-1 ml-3 whitespace-nowrap">
                     All interviews
                   </span>
-                  {/* <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                    Pro
-                  </span> */}
+                  {isPro !== "true" && (
+                    <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                      Pro
+                    </span>
+                  )}
                 </Link>
               </li>
               <li>
@@ -147,6 +151,28 @@ const SideBar = () => {
             >
               Turn new navigation off
             </a> */}
+          </div>
+          <div>
+            <form
+              method="POST"
+              accept-charset="utf-8"
+              target="_blank"
+              action="https://www.liqpay.ua/api/3/checkout"
+            >
+              <input
+                type="hidden"
+                name="data"
+                value="eyJ2ZXJzaW9uIjozLCJhY3Rpb24iOiJzdWJzY3JpYmUiLCJhbW91bnQiOiIxIiwiY3VycmVuY3kiOiJVU0QiLCJkZXNjcmlwdGlvbiI6ItCc0ZbQuSDRgtC+0LLQsNGAIiwicHVibGljX2tleSI6InNhbmRib3hfaTY5ODM0NzQyMzA4IiwibGFuZ3VhZ2UiOiJlbiIsInJlc3VsdF91cmwiOiJodHRwczovL2ludGVsbGloaXJlLWJldGEudmVyY2VsLmFwcC9zdWJzY3JpcHRpb24iLCJzdWJzY3JpYmUiOjEsInN1YnNjcmliZV9kYXRlX3N0YXJ0Ijoibm93Iiwic3Vic2NyaWJlX3BlcmlvZGljaXR5IjoibW9udGgifQ=="
+              />
+              <input
+                type="hidden"
+                name="signature"
+                value="5l64WL+yrNxLiBxE9TbhgHUV8/Y="
+              />
+              <button className="bg-green-500 hover:bg-green-600 text-white inline-block text-center px-6 py-2 font-semibold rounded-md shadow-md cursor-pointer">
+                <span className="inline-block align-middle ml-2">Get PRO</span>
+              </button>
+            </form>
           </div>
           <div>
             {isAdmin === "true" && (

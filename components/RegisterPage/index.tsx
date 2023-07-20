@@ -5,6 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import backIcon from "../../shared/assets/back.svg";
 import { toast, ToastContainer } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { getAuth } from "firebase/auth";
+import { useEffect } from "react";
 
 const RegisterPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -29,6 +32,18 @@ const RegisterPage = () => {
       });
     }
   };
+
+  const router = useRouter();
+
+  const auth = getAuth();
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      router.push("/dashboard");
+    } else {
+      router.push("/");
+    }
+  }, [auth.currentUser, router]);
 
   return (
     <>

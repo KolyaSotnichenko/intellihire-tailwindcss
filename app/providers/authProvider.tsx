@@ -46,10 +46,16 @@ export const AuthContextProvider = ({
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    if (user) router.push("/dashboard");
-    // else router.push("/");
-  }, [user]);
+  // useEffect(() => {
+  //   // Only redirect when the authentication process is completed
+  //   if (!loading) {
+  //     if (user) {
+  //       router.push("/dashboard");
+  //     } else {
+  //       router.push("/");
+  //     }
+  //   }
+  // }, [user, loading, router]);
 
   return (
     <AuthContext.Provider value={{ user }}>

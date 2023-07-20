@@ -4,11 +4,25 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { gradient } from "@/components/Gradient";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { getAuth } from "firebase/auth";
 
 export default function Home() {
+  const router = useRouter();
+
+  const auth = getAuth();
+
   useEffect(() => {
     gradient.initGradient("#gradient-canvas");
   }, []);
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      router.push("/dashboard");
+    } else {
+      router.push("/");
+    }
+  }, [auth.currentUser, router]);
 
   return (
     <AnimatePresence>

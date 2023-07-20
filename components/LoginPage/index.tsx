@@ -5,6 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import backIcon from "../../shared/assets/back.svg";
 import { ToastContainer, toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { getAuth } from "firebase/auth";
+import { useEffect } from "react";
 
 const LoginPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -30,6 +33,18 @@ const LoginPage = () => {
 
     // router.push("/dashboard");
   };
+
+  const router = useRouter();
+
+  const auth = getAuth();
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      router.push("/dashboard");
+    } else {
+      router.push("/");
+    }
+  }, [auth.currentUser, router]);
 
   return (
     <>
