@@ -7,17 +7,17 @@ import Link from "next/link";
 import { useEffect } from "react";
 
 const SubscriptionSuccess = () => {
-  // useEffect(() => {
-  //   const setProStatus = async () => {
-  //     const user = getAuth().currentUser;
-  //     const userDocRef = doc(db, `users/${user?.uid}`);
-  //     await updateDoc(userDocRef, {
-  //       isPro: "true",
-  //     });
-  //   };
+  useEffect(() => {
+    const setProStatus = async () => {
+      const user = getAuth().currentUser;
+      const userDocRef = doc(db, `users/${user?.uid}`);
+      await updateDoc(userDocRef, {
+        isPro: "true",
+      });
+    };
 
-  //   setProStatus();
-  // }, []);
+    setProStatus();
+  }, []);
 
   return (
     <div className="h-screen flex justify-center items-center">

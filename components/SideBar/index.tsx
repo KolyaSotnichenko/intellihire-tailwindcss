@@ -14,24 +14,16 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 //@ts-ignore
 import { LiqPaySubscribe } from "react-liqpay";
-
-const payInfo = {
-  amount: 1,
-  currency: "USD",
-  title: "Get Pro",
-};
-
-const ButtonComponent = () => (
-  <button className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-    {`${payInfo.title}`}
-  </button>
-);
+import crypto from "crypto";
+import { getCurrentDateTime } from "@/utils/getDate";
+import { generateOrderId } from "@/utils/geterateOrderId";
 
 const SideBar = () => {
   const [isDesktop, setIsDesktop] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(!isDesktop);
   const [isAdmin, setIsAdmin] = useState<string>("false");
   const [isPro, setIsPro] = useState<string>("false");
+  const [userOrderID, setUserOrderID] = useState<string>("");
 
   const user = getAuth().currentUser;
 
@@ -63,9 +55,83 @@ const SideBar = () => {
   }, []);
 
   useEffect(() => {
+    const getUserOrderID = async () => {
+      try {
+        if (user) {
+          const orderId = doc(db, "users", user.uid);
+          const docSnapshot = await getDoc(orderId);
+
+          if (docSnapshot.exists()) {
+            setUserOrderID(docSnapshot.data().orderId);
+          } else {
+            console.log("User not found");
+          }
+        } else {
+          console.log("No authenticated user");
+        }
+      } catch (error) {
+        console.error(
+          'Error retrieving "Completed" collection for user:',
+          error
+        );
+      }
+    };
+
+    getUserOrderID();
+  }, []);
+
+  useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);
   }, []);
 
+  const generatedOrderId = generateOrderId();
+
+  const json = {
+    public_key: `${process.env.NEXT_PUBLIC_LIQPAY_PUBLIC_KEY}`,
+    version: "3",
+    action: "subscribe",
+    subscribe_date_start: getCurrentDateTime(),
+    subscribe_periodicity: "month",
+    amount: "1",
+    currency: "USD",
+    description: "test",
+    language: "en",
+    order_id: generatedOrderId,
+    result_url: "https://intellihire-beta.vercel.app/subscription-success",
+  };
+  const jsonString = JSON.stringify(json);
+  const encodedString = btoa(jsonString);
+
+  const sign_string =
+    process.env.NEXT_PUBLIC_LIQPAY_PRIVATE_KEY +
+    encodedString +
+    process.env.NEXT_PUBLIC_LIQPAY_PRIVATE_KEY;
+
+  const sha1 = crypto.createHash("sha1");
+  sha1.update(sign_string);
+  const signature = sha1.digest("base64");
+
+  const handleOrderID = async (orderID: string) => {
+    const userDocRef = doc(db, `users/${user?.uid}`);
+    await updateDoc(userDocRef, {
+      orderId: orderID,
+    });
+  };
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+    try {
+      await fetch("/api/unsubscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userOrderID, userID: user?.uid }),
+      });
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <>
       <button
@@ -121,7 +187,11 @@ const SideBar = () => {
               </li>
               <li>
                 <Link
-                  href={isPro === "true" ? "/dashboard/interviews" : "/get-pro"}
+                  href={
+                    isPro === "true"
+                      ? "/dashboard/interviews"
+                      : "/dashboard/get-pro"
+                  }
                   onClick={() => setIsOpen(!isOpen)}
                   className="flex items-center p-2 text-black hover:text-white rounded-lg hover:bg-gray-200"
                 >
@@ -161,29 +231,31 @@ const SideBar = () => {
             </p>
           </div>
           <div>
-            {user && (
+            {user && isPro === "false" ? (
               <form
                 method="POST"
-                accept-charset="utf-8"
+                acceptCharset="utf-8"
                 target="_blank"
                 action="https://www.liqpay.ua/api/3/checkout"
               >
-                <input
-                  type="hidden"
-                  name="data"
-                  value="eyJ2ZXJzaW9uIjozLCJhY3Rpb24iOiJzdWJzY3JpYmUiLCJhbW91bnQiOiIxIiwiY3VycmVuY3kiOiJVU0QiLCJkZXNjcmlwdGlvbiI6IlN1YnNjcmlwdGlvbiIsInB1YmxpY19rZXkiOiJzYW5kYm94X2k2OTgzNDc0MjMwOCIsImxhbmd1YWdlIjoiZW4iLCJzZXJ2ZXJfdXJsIjoiaHR0cHM6Ly9pbnRlbGxpaGlyZS1iZXRhLnZlcmNlbC5hcHAvYXBpL2xpcXBheSIsInJlc3VsdF91cmwiOiJodHRwczovL2ludGVsbGloaXJlLWJldGEudmVyY2VsLmFwcC9zdWJzY3JpcHRpb24tc3VjY2VzcyIsInN1YnNjcmliZSI6MSwic3Vic2NyaWJlX2RhdGVfc3RhcnQiOiJub3ciLCJzdWJzY3JpYmVfcGVyaW9kaWNpdHkiOiJtb250aCJ9"
-                />
-                <input
-                  type="hidden"
-                  name="signature"
-                  value="3dEDwMXyTzv9a6ZdDRcPqh5CF0M="
-                />
-                <button className="bg-green-500 hover:bg-green-600 text-white inline-block text-center px-6 py-2 font-semibold rounded-md shadow-md cursor-pointer">
+                <input type="hidden" name="data" value={encodedString} />
+                <input type="hidden" name="signature" value={signature} />
+                <button
+                  onClick={() => handleOrderID(generatedOrderId)}
+                  className="w-full text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                >
                   <span className="inline-block align-middle ml-2">
                     Get Pro
                   </span>
                 </button>
               </form>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                className="w-full text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+              >
+                Cancel subscription
+              </button>
             )}
             {isAdmin === "true" && (
               <Link
