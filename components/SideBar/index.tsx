@@ -10,7 +10,7 @@ import questionsIcon from "../../shared/assets/questions.svg";
 import interviewsIcon from "../../shared/assets/interviews.svg";
 import dashboardIcon from "../../shared/assets/dashboard.svg";
 import { getAuth } from "firebase/auth";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 //@ts-ignore
 import { LiqPaySubscribe } from "react-liqpay";
@@ -32,14 +32,14 @@ const SideBar = () => {
       try {
         if (user) {
           const role = doc(db, "users", user.uid);
-          const docSnapshot = await getDoc(role);
-
-          if (docSnapshot.exists()) {
-            setIsAdmin(docSnapshot.data().isAdmin);
-            setIsPro(docSnapshot.data()?.isPro);
-          } else {
-            console.log("User not found");
-          }
+          onSnapshot(role, (doc) => {
+            if (doc.exists()) {
+              setIsAdmin(doc.data().isAdmin);
+              setIsPro(doc.data()?.isPro);
+            } else {
+              console.log("User not found");
+            }
+          });
         } else {
           console.log("No authenticated user");
         }
