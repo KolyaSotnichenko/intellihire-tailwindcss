@@ -40,10 +40,8 @@ const RegisterPage = () => {
   useEffect(() => {
     if (auth.currentUser) {
       router.push("/dashboard");
-    } else {
-      router.push("/");
     }
-  }, [auth.currentUser, router]);
+  }, [auth.currentUser]);
 
   return (
     <>
