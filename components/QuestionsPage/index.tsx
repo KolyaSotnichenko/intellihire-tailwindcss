@@ -1,7 +1,11 @@
 "use client";
 
+import DataLoader from "@/shared/DataLoader";
 import QuestionCard from "@/shared/QuestionCard";
 import SearchBar from "@/shared/SearchBar";
+import { db } from "@/utils/firebase";
+import { getAuth } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 export interface IQuestion {
@@ -17,6 +21,35 @@ const QuestionsPage = () => {
   const [filteredQuestions, setFilteredQuestions] = useState<IQuestion[] | []>(
     []
   );
+  const [isPro, setIsPro] = useState<string>("false");
+
+  useEffect(() => {
+    const getRole = async () => {
+      const user = getAuth().currentUser;
+
+      try {
+        if (user) {
+          const role = doc(db, "users", user.uid);
+          const docSnapshot = await getDoc(role);
+
+          if (docSnapshot.exists()) {
+            setIsPro(docSnapshot.data()?.isPro);
+          } else {
+            console.log("User not found");
+          }
+        } else {
+          console.log("No authenticated user");
+        }
+      } catch (error) {
+        console.error(
+          'Error retrieving "Completed" collection for user:',
+          error
+        );
+      }
+    };
+
+    getRole();
+  }, []);
 
   useEffect(() => {
     const getQuestions = async () => {
@@ -24,19 +57,32 @@ const QuestionsPage = () => {
         const res = await fetch(
           "https://64a1641a0079ce56e2db0688.mockapi.io/questions"
         );
-        return setQuestions(await res.json());
+
+        const data = await res.json();
+
+        if (isPro === "false") {
+          const filtered = data.filter(
+            (question: { title: string }) => question.title === "Primary"
+          );
+
+          setQuestions(filtered);
+        } else {
+          setQuestions(data);
+        }
       } catch (error) {
         throw new Error("Failed to fetch data");
       }
     };
 
     getQuestions();
-  }, []);
+  }, [isPro]);
 
   useEffect(() => {
     if (searchQuery) {
-      const filtered = questions.filter((question) =>
-        question.title.toLowerCase().includes(searchQuery.toLowerCase())
+      const filtered = questions.filter(
+        (question) =>
+          question.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          question.question.toLowerCase().includes(searchQuery.toLowerCase())
       );
       setFilteredQuestions(filtered);
     } else {
@@ -70,15 +116,7 @@ const QuestionsPage = () => {
                 />
               ))
             ) : (
-              <div role="status" className="max-w-sm animate-pulse">
-                <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-300 w-48 mb-4"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 max-w-[360px] mb-2.5"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 mb-2.5"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 max-w-[330px] mb-2.5"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 max-w-[300px] mb-2.5"></div>
-                <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-300 max-w-[360px]"></div>
-                <span className="sr-only">Loading...</span>
-              </div>
+              <DataLoader />
             )}
           </div>
         </div>

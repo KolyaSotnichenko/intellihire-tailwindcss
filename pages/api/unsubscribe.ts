@@ -1,6 +1,5 @@
 import { db } from '@/utils/firebase';
 
-import { getAuth } from 'firebase/auth';
 import { doc, updateDoc } from 'firebase/firestore';
 // @ts-ignore
 import LiqPay from 'liqpay-sdk-nodejs'
