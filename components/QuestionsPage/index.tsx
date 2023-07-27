@@ -65,9 +65,9 @@ const QuestionsPage = () => {
             (question: { title: string }) => question.title === "Primary"
           );
 
-          setQuestions(filtered);
+          setQuestions(filtered.reverse());
         } else {
-          setQuestions(data);
+          setQuestions(data.reverse());
         }
       } catch (error) {
         throw new Error("Failed to fetch data");
