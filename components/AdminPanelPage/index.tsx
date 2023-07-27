@@ -31,7 +31,7 @@ const AdminPanelPage = () => {
         );
         const questions: any = await res.json();
 
-        setNumberOfQuestions(questions.length);
+        setNumberOfQuestions(questions?.length);
         setQuestions(questions);
       } catch (error) {
         console.error(
@@ -52,7 +52,7 @@ const AdminPanelPage = () => {
         );
 
         const interviews: any = await res.json();
-        setNumberOfInterviews(interviews.length);
+        setNumberOfInterviews(interviews?.length);
         setInterviews(interviews);
       } catch (error) {
         console.error(
@@ -76,7 +76,7 @@ const AdminPanelPage = () => {
           users.push(doc.data());
         });
 
-        setNumberOfUsers(users.length);
+        setNumberOfUsers(users?.length);
         setUsers(users);
       } catch (error) {
         console.error(
