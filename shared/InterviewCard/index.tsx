@@ -25,6 +25,10 @@ const InterviewCard: FC<IInterviewCardProps> = ({
       transition={{ duration: 0.5 }}
       className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow "
     >
+      <div className="flex items-center justify-between border-l-[2px] pl-2 mb-3">
+        <p className="text-gray-400 text-[14px]">IntelliHire</p>
+        <div className="bg-green-400 rounded-lg w-[10px] h-[10px]"></div>
+      </div>
       <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
         {title}
       </h5>

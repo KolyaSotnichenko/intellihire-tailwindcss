@@ -110,7 +110,7 @@ const QuestionInInterviewCard: FC<IQuestion> = ({
           Answer:
         </p>
         <p className="text-[14px] font-bold text-gray-400 dark:text-gray-400">
-          {answer}
+          {answer ? answer : "No answer"}
         </p>
       </div>
       <div className="flex flex-col gap-y-[5px] w-[50%]">
@@ -118,7 +118,7 @@ const QuestionInInterviewCard: FC<IQuestion> = ({
           Feedback:
         </p>
         <p className="text-[14px] font-bold text-gray-400 dark:text-gray-400">
-          {feedback}
+          {feedback ? feedback : "No feedback"}
         </p>
       </div>
       {isCompleted && (

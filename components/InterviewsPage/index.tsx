@@ -18,7 +18,10 @@ const InterviewsPage = () => {
         const res = await fetch(
           "https://64a1641a0079ce56e2db0688.mockapi.io/interviews"
         );
-        setInterviews(await res.json());
+
+        const data = await res.json();
+
+        setInterviews(data.reverse());
       } catch (error) {
         console.error(
           'Error retrieving "Completed" collection for user:',
