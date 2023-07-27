@@ -8,10 +8,9 @@ import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 import { useParams } from "next/navigation";
 import {
   arrayUnion,
-  collection,
   doc,
   getDoc,
-  getDocs,
+  increment,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "@/utils/firebase";
@@ -185,12 +184,12 @@ export default function QuestionDetail() {
           const docSnapshot = await getDoc(userDocRef);
 
           if (docSnapshot.exists()) {
-            setTotalSeconds(
-              !docSnapshot.data().TotalTime ? 0 : docSnapshot.data().TotalTime
-            );
+            // setTotalSeconds(
+            //   !docSnapshot.data().TotalTime ? 0 : docSnapshot.data().TotalTime
+            // );
 
             updateDoc(userDocRef, {
-              TotalTime: totalSeconds,
+              TotalTime: increment(totalSeconds),
             });
 
             console.log(totalSeconds);
