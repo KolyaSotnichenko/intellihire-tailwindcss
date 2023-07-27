@@ -38,10 +38,22 @@ const RegisterPage = () => {
   const auth = getAuth();
 
   useEffect(() => {
-    if (auth.currentUser) {
+    // Function to redirect to the dashboard
+    const redirectToDashboard = () => {
       router.push("/dashboard");
-    }
-  }, [auth.currentUser]);
+    };
+
+    // Check if there is a currently logged-in user
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // Redirect the user to the dashboard if logged in
+        redirectToDashboard();
+      }
+    });
+
+    // Unsubscribe from the auth state changes when the component unmounts
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
