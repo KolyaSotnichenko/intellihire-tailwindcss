@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 
 const DashBoardPage = () => {
   const [countCompletedQuestions, setCountCompletedQuestions] = useState<any>();
-  const [streak, setStreak] = useState(0);
+  // const [streak, setStreak] = useState(0);
+  const [totalSeconds, setTotalSeconds] = useState(0);
 
   useEffect(() => {
     const getCompletedCollectionByUserId = async () => {
@@ -22,6 +23,7 @@ const DashBoardPage = () => {
 
           if (docSnapshot.exists()) {
             setCountCompletedQuestions(docSnapshot.data().Completed.length);
+            setTotalSeconds(docSnapshot.data().TotalTime);
           } else {
             console.log("User not found");
           }
@@ -38,6 +40,7 @@ const DashBoardPage = () => {
 
     getCompletedCollectionByUserId();
   }, []);
+
   return (
     <>
       <div className="p-4 sm:ml-64">
@@ -67,7 +70,10 @@ const DashBoardPage = () => {
                 Total interview time
               </p>
               <p className="text-2xl font-bold text-gray-400 dark:text-black">
-                In development
+                {`${String(Math.floor(totalSeconds / 60)).padStart(
+                  2,
+                  "0"
+                )}:${String(totalSeconds % 60).padStart(2, "0")}`}
               </p>
             </motion.div>
             <motion.div
