@@ -46,7 +46,7 @@ const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
           </tr>
         </thead>
         <tbody>
-          {data.length > 0 ? (
+          {data?.length > 0 ? (
             data.map((item, index) => {
               const handleOpenEditModal = () => {
                 setOpenEditModel(true);
