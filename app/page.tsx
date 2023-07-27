@@ -6,6 +6,7 @@ import { gradient } from "@/components/Gradient";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getAuth } from "firebase/auth";
+import GoogleAnalytics from "@/shared/GoogleAnalytics";
 
 export default function Home() {
   const router = useRouter();
@@ -24,6 +25,7 @@ export default function Home() {
 
   return (
     <AnimatePresence>
+      <GoogleAnalytics />
       <div className="min-h-[100vh] sm:min-h-screen w-screen flex flex-col relative bg-[#F2F3F5] font-inter overflow-hidden">
         <svg
           style={{ filter: "contrast(125%) brightness(110%)" }}

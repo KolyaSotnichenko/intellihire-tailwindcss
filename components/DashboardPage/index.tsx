@@ -1,5 +1,6 @@
 "use client";
 
+import GoogleAnalytics from "@/shared/GoogleAnalytics";
 import { db } from "@/utils/firebase";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
@@ -43,6 +44,7 @@ const DashBoardPage = () => {
 
   return (
     <>
+      <GoogleAnalytics />
       <div className="p-4 sm:ml-64">
         <div className="p-4  rounded-lg">
           <h1 className="text-[24px] font-bold mb-8 capitalize">Home</h1>
