@@ -557,7 +557,7 @@ export default function QuestionDetail() {
             </div>
           </>
         ) : (
-          <div className="h-full w-full items-center flex flex-col mt-[10vh]">
+          <div className="h-full w-full items-center flex flex-col mt-[4vh]">
             {recordingPermission ? (
               <div className="w-full flex flex-col max-w-[1080px] mx-auto justify-center">
                 <h2 className="text-2xl font-semibold text-left text-[#1D2B3A] mb-2">
