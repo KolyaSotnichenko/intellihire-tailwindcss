@@ -69,6 +69,7 @@ const InterviewsPage = () => {
                     title={interview.title}
                     description={interview.description}
                     createdAt={interview.createdAt}
+                    interviewQuestions={interview.interviewQuestions}
                   />
                 </div>
               ))

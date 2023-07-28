@@ -2,6 +2,8 @@ import { formatDate } from "@/utils/formatDate";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FC } from "react";
+import Image from "next/image";
+import questionIcon from "../../shared/assets/question.svg";
 
 export interface IInterviewCardProps {
   id: string;
@@ -35,6 +37,18 @@ const InterviewCard: FC<IInterviewCardProps> = ({
       <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
         {description}
       </p>
+      <div className="flex gap-x-[5px] items-center mb-3">
+        <Image
+          src={questionIcon}
+          width={20}
+          height={20}
+          draggable={false}
+          alt="Questions"
+        />
+        <p className="text-gray-400 text-[14px]">
+          {interviewQuestions?.length} questions
+        </p>
+      </div>
       <div className="flex justify-between items-center">
         <Link
           href={`/dashboard/interviews/${id}`}
