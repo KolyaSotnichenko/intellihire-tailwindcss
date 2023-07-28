@@ -80,8 +80,6 @@ const SideBar = () => {
     getUserOrderID();
   }, []);
 
-  console.log(userOrderID, user?.uid);
-
   useEffect(() => {
     const checkSubscription = async () => {
       if (userOrderID) {
@@ -100,7 +98,7 @@ const SideBar = () => {
     };
 
     checkSubscription();
-  }, [userOrderID]);
+  }, []);
 
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);
