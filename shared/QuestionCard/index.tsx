@@ -6,7 +6,9 @@ import { db } from "@/utils/firebase";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
+import doneIcon from "../../shared/assets/done.svg";
 import { FC, useEffect, useState } from "react";
+import Image from "next/image";
 
 const QuestionCard: FC<IQuestion> = ({ id, title, question, video }) => {
   const [completedQuestions, setCompletedQuestions] = useState<string[]>();
@@ -66,8 +68,15 @@ const QuestionCard: FC<IQuestion> = ({ id, title, question, video }) => {
           {question}
         </p>
         {isCompleted && (
-          <div className="absolute top-3 right-3 text-green-500">
-            <p className=" text-green-500">Completed</p>
+          <div className="flex items-center gap-x-[5px] absolute top-3 right-3 border-[1px] rounded-lg border-green-500 p-1 text-green-500">
+            <Image
+              src={doneIcon}
+              width={15}
+              height={15}
+              draggable={false}
+              alt="Done"
+            />
+            <p className=" text-xs text-green-500">Completed</p>
           </div>
         )}
       </Link>
