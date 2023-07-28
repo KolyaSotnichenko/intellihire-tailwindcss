@@ -60,7 +60,7 @@ const InterviewsPage = () => {
               />
             </div>
           </div>
-          <div className="relative grid sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 overflow-auto h-[80vh] mb-4 rounded cursor-pointer ">
+          <div className="relative grid sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 overflow-auto h-[70vh] mb-4 rounded cursor-pointer ">
             {filteredInterviews.length > 0 ? (
               filteredInterviews.map((interview) => (
                 <div key={interview.id} className="grid h-[10vh]">
