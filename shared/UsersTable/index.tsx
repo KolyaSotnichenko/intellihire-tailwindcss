@@ -70,7 +70,7 @@ const UsersTable: FC<IUsersTableProps> = ({ data }) => {
                     {item.isAdmin}
                   </td>
                   <td className="px-6 py-4 text-gray-800">
-                    {item.Completed.length}
+                    {item.Completed?.length ? item.Completed?.length : 0}
                   </td>
                   {item.isAdmin === "false" && (
                     <td className="px-6 py-4 flex gap-x-5">
