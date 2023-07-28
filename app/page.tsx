@@ -87,7 +87,7 @@ export default function Home() {
             </div> */}
           </motion.div>
 
-          <div className="flex gap-[15px] mt-8 md:mt-0">
+          <div className="flex flex-col items-center gap-y-[30px] md:flex-row gap-x-[15px] mt-8 md:mt-0">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
