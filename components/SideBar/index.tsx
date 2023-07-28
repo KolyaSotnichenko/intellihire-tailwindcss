@@ -80,6 +80,28 @@ const SideBar = () => {
     getUserOrderID();
   }, []);
 
+  console.log(userOrderID, user?.uid);
+
+  useEffect(() => {
+    const checkSubscription = async () => {
+      if (userOrderID) {
+        try {
+          await fetch("/api/check-subscription", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userOrderID, userID: user?.uid }),
+          });
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
+
+    checkSubscription();
+  }, [userOrderID]);
+
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);
   }, []);
@@ -97,7 +119,7 @@ const SideBar = () => {
     description: "test",
     language: "en",
     order_id: generatedOrderId,
-    result_url: "https://intellihire-beta.vercel.app/subscription-success",
+    result_url: "https://intellihire-beta.vercel.app/dashboard",
   };
   const jsonString = JSON.stringify(json);
   const encodedString = btoa(jsonString);
