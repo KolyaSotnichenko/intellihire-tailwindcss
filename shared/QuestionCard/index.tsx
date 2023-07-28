@@ -59,7 +59,7 @@ const QuestionCard: FC<IQuestion> = ({ id, title, question, video }) => {
     >
       <Link
         href={`/dashboard/questions/${id}`}
-        className="flex flex-col gap-y-[5px]  p-4  h-full rounded-[20px] border  border-gray-400 relative"
+        className="flex flex-col gap-y-[5px] p-4 min-h-[150px]  max-h-[200px] rounded-[20px] border  border-gray-400 relative"
       >
         <p className="text-[18px] font-bold text-gray-400 dark:text-black capitalize">
           {title}
