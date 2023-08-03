@@ -2,6 +2,7 @@
 
 import GoogleAnalytics from "@/shared/GoogleAnalytics";
 import { db } from "@/utils/firebase";
+import { initGA, logPageView } from "@/utils/ga";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
@@ -11,6 +12,14 @@ const DashBoardPage = () => {
   const [countCompletedQuestions, setCountCompletedQuestions] = useState<any>();
   // const [streak, setStreak] = useState(0);
   const [totalSeconds, setTotalSeconds] = useState(0);
+
+  useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
+  }, []);
 
   useEffect(() => {
     const getCompletedCollectionByUserId = async () => {
