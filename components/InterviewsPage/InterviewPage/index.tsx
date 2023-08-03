@@ -10,6 +10,7 @@ import QuestionInInterviewCard, {
 import { db } from "@/utils/firebase";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import { initGA, logPageView } from "@/utils/ga";
 
 interface IInterviewData {
   id: string;
@@ -31,6 +32,14 @@ const InterviewDetail = () => {
   const completedInterview = questionsDataIds.every((item) =>
     completedQuestions?.includes(item)
   );
+
+  useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
+  }, []);
 
   useEffect(() => {
     const getInterview = async () => {

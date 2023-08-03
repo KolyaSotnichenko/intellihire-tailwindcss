@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 import { getAuth } from "firebase/auth";
+import { initGA, logPageView } from "@/utils/ga";
 
 const ffmpeg = createFFmpeg({
   // corePath: `http://localhost:3000/ffmpeg/dist/ffmpeg-core.js`,
@@ -60,6 +61,14 @@ export default function QuestionDetail() {
   const params = useParams();
 
   const auth = getAuth();
+
+  useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
+  }, []);
 
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 768);

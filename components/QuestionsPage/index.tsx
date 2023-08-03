@@ -4,6 +4,7 @@ import DataLoader from "@/shared/DataLoader";
 import QuestionCard from "@/shared/QuestionCard";
 import SearchBar from "@/shared/SearchBar";
 import { db } from "@/utils/firebase";
+import { initGA, logPageView } from "@/utils/ga";
 import { getAuth } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -22,6 +23,14 @@ const QuestionsPage = () => {
     []
   );
   const [isPro, setIsPro] = useState<string>("false");
+
+  useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
+  }, []);
 
   useEffect(() => {
     const getRole = async () => {

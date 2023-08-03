@@ -3,6 +3,7 @@
 import DataLoader from "@/shared/DataLoader";
 import InterviewCard, { IInterviewCardProps } from "@/shared/InterviewCard";
 import SearchBar from "@/shared/SearchBar";
+import { initGA, logPageView } from "@/utils/ga";
 import { useEffect, useState } from "react";
 
 const InterviewsPage = () => {
@@ -11,6 +12,14 @@ const InterviewsPage = () => {
   const [filteredInterviews, setFilteredInterviews] = useState<
     IInterviewCardProps[] | []
   >([]);
+
+  useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
+  }, []);
 
   useEffect(() => {
     const getInterviews = async () => {

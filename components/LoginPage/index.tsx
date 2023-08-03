@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { getAuth } from "firebase/auth";
 import { useEffect } from "react";
+import { initGA, logPageView } from "@/utils/ga";
 
 const LoginPage = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -37,6 +38,14 @@ const LoginPage = () => {
   const router = useRouter();
 
   const auth = getAuth();
+
+  useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
+  }, []);
 
   useEffect(() => {
     // Function to redirect to the dashboard

@@ -3,8 +3,18 @@
 import Image from "next/image";
 import diamondIcon from "../../shared/assets/diamond.svg";
 import { motion } from "framer-motion";
+import { initGA, logPageView } from "@/utils/ga";
+import { useEffect } from "react";
 
 const GetProPage = () => {
+  useEffect(() => {
+    if (!window.GA_INITIALIZED) {
+      initGA();
+      window.GA_INITIALIZED = true;
+    }
+    logPageView();
+  }, []);
+
   return (
     <div className="sm:ml-64">
       <div className="rounded-lg ">
