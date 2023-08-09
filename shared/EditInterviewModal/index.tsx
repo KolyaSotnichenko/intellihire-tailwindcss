@@ -74,7 +74,7 @@ const EditInterviewModal: FC<IEditModalProps> = ({
           body: JSON.stringify({
             title: interviewTitle,
             description: interviewDescriptions,
-            interviewQuestions: interviewQuestions,
+            interviewQuestions: interviewQuestionsIds,
           }),
         }
       );
