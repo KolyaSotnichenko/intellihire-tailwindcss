@@ -68,6 +68,10 @@ const InterviewsPage = () => {
                 placeholder="Enter interview title..."
               />
             </div>
+            <div className="flex flex-col gap-y-[5px]"></div>
+            <div className="flex justify-end gap-y-[5px]">
+              <p className="text-gray-500">Interviews: {interviews.length}</p>
+            </div>
           </div>
           <div className="relative grid sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-2 overflow-auto h-[70vh] mb-4 rounded cursor-pointer ">
             {filteredInterviews.length > 0 ? (
