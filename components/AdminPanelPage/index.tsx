@@ -10,6 +10,7 @@ import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import InterviewsTable from "@/shared/InterviewsTable";
 import AddInterviewModal from "@/shared/AddInterviewModal";
 import UsersTable from "@/shared/UsersTable";
+import { useQuery } from "react-query";
 
 const AdminPanelPage = () => {
   const [numberOfQuestions, setNumberOfQuestions] = useState<number>(0);
@@ -23,47 +24,41 @@ const AdminPanelPage = () => {
   const [openAddInterviewModal, setOpenAddInterviewModal] =
     useState<boolean>(false);
 
-  useEffect(() => {
-    const getQuestions = async () => {
-      try {
-        const res = await fetch(
-          "https://64a1641a0079ce56e2db0688.mockapi.io/questions"
-        );
-        const questions: any = await res.json();
+  const getQuestions = async () => {
+    try {
+      const res = await fetch(
+        "https://64a1641a0079ce56e2db0688.mockapi.io/questions"
+      );
+      const questions: any = await res.json();
 
-        setNumberOfQuestions(questions?.length);
-        setQuestions(questions);
-      } catch (error) {
-        console.error(
-          'Error retrieving "Completed" collection for user:',
-          error
-        );
-      }
-    };
+      setNumberOfQuestions(questions?.length);
+      setQuestions(questions);
+    } catch (error) {
+      console.error('Error retrieving "Completed" collection for user:', error);
+    }
+  };
 
-    getQuestions();
-  }, []);
+  const getInterviews = async () => {
+    try {
+      const res = await fetch(
+        "https://64a1641a0079ce56e2db0688.mockapi.io/interviews"
+      );
 
-  useEffect(() => {
-    const getInterviews = async () => {
-      try {
-        const res = await fetch(
-          "https://64a1641a0079ce56e2db0688.mockapi.io/interviews"
-        );
+      const interviews: any = await res.json();
+      setNumberOfInterviews(interviews?.length);
+      setInterviews(interviews);
+    } catch (error) {
+      console.error('Error retrieving "Completed" collection for user:', error);
+    }
+  };
 
-        const interviews: any = await res.json();
-        setNumberOfInterviews(interviews?.length);
-        setInterviews(interviews);
-      } catch (error) {
-        console.error(
-          'Error retrieving "Completed" collection for user:',
-          error
-        );
-      }
-    };
+  const {} = useQuery("questions", getQuestions, {
+    refetchOnMount: true,
+  });
 
-    getInterviews();
-  }, []);
+  const {} = useQuery("interviews", getInterviews, {
+    refetchOnMount: true,
+  });
 
   useEffect(() => {
     const getUsers = async () => {

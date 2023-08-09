@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { IInterviewCardProps } from "../InterviewCard";
 import EditInterviewModal from "../EditInterviewModal";
 import { formatDate } from "@/utils/formatDate";
+import { useMutation, useQueryClient } from "react-query";
 
 interface IInterviewTableProps {
   data: IInterviewCardProps[];
@@ -11,20 +12,26 @@ const InterviewsTable: FC<IInterviewTableProps> = ({ data }) => {
   const [openEditModal, setOpenEditModel] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<IInterviewCardProps>();
 
+  const queryClient = useQueryClient();
+
+  const removeInterview = async (id: string) => {
+    const response = await fetch(
+      `https://64a1641a0079ce56e2db0688.mockapi.io/interviews/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (response.ok) {
+    }
+  };
+
+  const mutation = useMutation((id: string) => removeInterview(id), {
+    onSuccess: () => queryClient.invalidateQueries(["interviews"]),
+  });
+
   const handleRemoveInterview = (id: string) => {
-    fetch(`https://64a1641a0079ce56e2db0688.mockapi.io/interviews/${id}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log("Вопрос успешно удален");
-        } else {
-          console.error("Ошибка при удалении вопроса");
-        }
-      })
-      .catch((error) => {
-        console.error("Ошибка при удалении вопроса:", error);
-      });
+    mutation.mutate(id);
   };
 
   return (

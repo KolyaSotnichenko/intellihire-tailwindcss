@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 
 interface IAddModalProps {
   handleOpen: (state: boolean) => void;
@@ -9,32 +10,35 @@ const AddQuestionModal: FC<IAddModalProps> = ({ handleOpen }) => {
   const [questionText, setQuestionText] = useState<string>("");
   const [videoUrl, setVideoUrl] = useState<string>("");
 
-  const handleAddQuestion = async () => {
-    try {
-      const response = await fetch(
-        "https://64a1641a0079ce56e2db0688.mockapi.io/questions",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: questionTitle,
-            question: questionText,
-            video: videoUrl,
-          }),
-        }
-      );
+  const queryClient = useQueryClient();
 
-      if (response.ok) {
-        console.log("Вопрос успешно добавлен");
-        handleOpen(false);
-      } else {
-        console.error("Ошибка при добавлении вопроса");
+  const addQuestion = async () => {
+    const response = await fetch(
+      "https://64a1641a0079ce56e2db0688.mockapi.io/questions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: questionTitle,
+          question: questionText,
+          video: videoUrl,
+        }),
       }
-    } catch (error) {
-      console.error("Ошибка при добавлении вопроса:", error);
+    );
+
+    if (response.ok) {
+      handleOpen(false);
     }
+  };
+
+  const mutation = useMutation(() => addQuestion(), {
+    onSuccess: () => queryClient.invalidateQueries(["questions"]),
+  });
+
+  const handleAddQuestion = async () => {
+    mutation.mutate();
   };
 
   return (

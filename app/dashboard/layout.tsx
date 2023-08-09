@@ -1,6 +1,7 @@
 import "../../styles/globals.css";
 import { Metadata } from "next";
 import SideBar from "@/components/SideBar";
+import { QueryProvider } from "../providers/queryProvider";
 
 export const metadata: Metadata = {
   title: "IntelliHire - AI-Powered Mock Interviews",
@@ -32,9 +33,11 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main>
-      <SideBar />
-      {children}
-    </main>
+    <QueryProvider>
+      <main>
+        <SideBar />
+        {children}
+      </main>
+    </QueryProvider>
   );
 }

@@ -1,6 +1,7 @@
 import { IQuestion } from "@/components/QuestionsPage";
 import { MultiSelect, MultiSelectProps } from "@uc-react-ui/multiselect";
 import { FC, useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 interface IAddModalProps {
   handleOpen: (state: boolean) => void;
@@ -17,6 +18,8 @@ const AddInterviewModal: FC<IAddModalProps> = ({ handleOpen }) => {
 
   const [optionList, setOptionList] = useState<{ label: string }[]>([]);
 
+  const queryClient = useQueryClient();
+
   const props: MultiSelectProps = {
     label: "Question IDs",
     name: "ids",
@@ -27,24 +30,19 @@ const AddInterviewModal: FC<IAddModalProps> = ({ handleOpen }) => {
     valueChange: setInterviewQuestionsIds,
   };
 
-  useEffect(() => {
-    const getQuestions = async () => {
-      try {
-        const res = await fetch(
-          "https://64a1641a0079ce56e2db0688.mockapi.io/questions"
-        );
-        const questions: any = await res.json();
-        setQuestions(questions);
-      } catch (error) {
-        console.error(
-          'Error retrieving "Completed" collection for user:',
-          error
-        );
-      }
-    };
+  const getQuestions = async () => {
+    try {
+      const res = await fetch(
+        "https://64a1641a0079ce56e2db0688.mockapi.io/questions"
+      );
+      const questions: any = await res.json();
+      setQuestions(questions);
+    } catch (error) {
+      console.error('Error retrieving "Completed" collection for user:', error);
+    }
+  };
 
-    getQuestions();
-  }, []);
+  const {} = useQuery("questions", getQuestions);
 
   useEffect(() => {
     const newArray = questions.map((item) => ({
@@ -53,32 +51,33 @@ const AddInterviewModal: FC<IAddModalProps> = ({ handleOpen }) => {
     setOptionList(newArray);
   }, [questions]);
 
-  const handleAddInterview = async () => {
-    try {
-      const response = await fetch(
-        "https://64a1641a0079ce56e2db0688.mockapi.io/interviews",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            title: interviewTitle,
-            description: interviewDescriptions,
-            interviewQuestions: interviewQuestionsIds,
-          }),
-        }
-      );
-
-      if (response.ok) {
-        console.log("Вопрос успешно добавлен");
-        handleOpen(false);
-      } else {
-        console.error("Ошибка при добавлении вопроса");
+  const addInterview = async () => {
+    const response = await fetch(
+      "https://64a1641a0079ce56e2db0688.mockapi.io/interviews",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: interviewTitle,
+          description: interviewDescriptions,
+          interviewQuestions: interviewQuestionsIds,
+        }),
       }
-    } catch (error) {
-      console.error("Ошибка при добавлении вопроса:", error);
+    );
+
+    if (response.ok) {
+      handleOpen(false);
     }
+  };
+
+  const mutation = useMutation(() => addInterview(), {
+    onSuccess: () => queryClient.invalidateQueries(["interviews"]),
+  });
+
+  const handleAddInterview = async () => {
+    mutation.mutate();
   };
 
   return (

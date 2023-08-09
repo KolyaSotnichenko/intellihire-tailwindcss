@@ -1,6 +1,7 @@
 import { IQuestion } from "@/components/QuestionsPage";
 import { FC, useState } from "react";
 import EditQuestionModal from "../EditQuestionModal";
+import { useMutation, useQueryClient } from "react-query";
 
 interface IQuestionTableProps {
   data: IQuestion[];
@@ -10,20 +11,26 @@ const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
   const [openEditModal, setOpenEditModel] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<IQuestion>();
 
+  const queryClient = useQueryClient();
+
+  const removeQuestion = async (id: string) => {
+    const response = await fetch(
+      `https://64a1641a0079ce56e2db0688.mockapi.io/questions/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (response.ok) {
+    }
+  };
+
+  const mutation = useMutation((id: string) => removeQuestion(id), {
+    onSuccess: () => queryClient.invalidateQueries(["questions"]),
+  });
+
   const handleRemoveQuestion = (id: string) => {
-    fetch(`https://64a1641a0079ce56e2db0688.mockapi.io/questions/${id}`, {
-      method: "DELETE",
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log("Вопрос успешно удален");
-        } else {
-          console.error("Ошибка при удалении вопроса");
-        }
-      })
-      .catch((error) => {
-        console.error("Ошибка при удалении вопроса:", error);
-      });
+    mutation.mutate(id);
   };
 
   return (
