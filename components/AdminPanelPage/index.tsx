@@ -11,6 +11,7 @@ import InterviewsTable from "@/shared/InterviewsTable";
 import AddInterviewModal from "@/shared/AddInterviewModal";
 import UsersTable from "@/shared/UsersTable";
 import { useQuery } from "react-query";
+import { ToastContainer } from "react-toastify";
 
 const AdminPanelPage = () => {
   const [numberOfQuestions, setNumberOfQuestions] = useState<number>(0);
@@ -86,6 +87,18 @@ const AdminPanelPage = () => {
 
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="p-4 sm:ml-64">
         <div className="p-4  rounded-lg ">
           <h1 className="text-[24px] font-bold mb-8 capitalize">Admin Panel</h1>

@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 
 interface IAddModalProps {
   handleOpen: (state: boolean) => void;
@@ -29,6 +30,16 @@ const AddQuestionModal: FC<IAddModalProps> = ({ handleOpen }) => {
     );
 
     if (response.ok) {
+      toast.success(`Your question has added!`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       handleOpen(false);
     }
   };

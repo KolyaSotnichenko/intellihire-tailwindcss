@@ -2,6 +2,7 @@ import { IQuestion } from "@/components/QuestionsPage";
 import { FC, useState } from "react";
 import EditQuestionModal from "../EditQuestionModal";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 
 interface IQuestionTableProps {
   data: IQuestion[];
@@ -22,6 +23,16 @@ const QuestionsTable: FC<IQuestionTableProps> = ({ data }) => {
     );
 
     if (response.ok) {
+      toast.success(`Your question has removed!`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 

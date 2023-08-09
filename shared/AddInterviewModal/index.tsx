@@ -2,6 +2,7 @@ import { IQuestion } from "@/components/QuestionsPage";
 import { MultiSelect, MultiSelectProps } from "@uc-react-ui/multiselect";
 import { FC, useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 
 interface IAddModalProps {
   handleOpen: (state: boolean) => void;
@@ -68,6 +69,16 @@ const AddInterviewModal: FC<IAddModalProps> = ({ handleOpen }) => {
     );
 
     if (response.ok) {
+      toast.success(`Your interview has added!`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
       handleOpen(false);
     }
   };

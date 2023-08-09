@@ -3,6 +3,7 @@ import { IInterviewCardProps } from "../InterviewCard";
 import EditInterviewModal from "../EditInterviewModal";
 import { formatDate } from "@/utils/formatDate";
 import { useMutation, useQueryClient } from "react-query";
+import { toast } from "react-toastify";
 
 interface IInterviewTableProps {
   data: IInterviewCardProps[];
@@ -23,6 +24,16 @@ const InterviewsTable: FC<IInterviewTableProps> = ({ data }) => {
     );
 
     if (response.ok) {
+      toast.success(`Your question has removed!`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
 
