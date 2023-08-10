@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { toast } from "react-toastify";
 
 interface IEditModalProps {
   handleOpen: (state: boolean) => void;
@@ -37,10 +38,28 @@ const EditQuestionModal: FC<IEditModalProps> = ({
       );
 
       if (response.ok) {
-        console.log("Вопрос успешно добавлен");
+        toast.success(`Question edited successfully!`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         handleOpen(false);
       } else {
-        console.error("Ошибка при добавлении вопроса");
+        toast.error(`Error while editing the question!`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     } catch (error) {
       console.error("Ошибка при добавлении вопроса:", error);
