@@ -22,7 +22,7 @@ const QuestionsPage = () => {
   const [filteredQuestions, setFilteredQuestions] = useState<IQuestion[] | []>(
     []
   );
-  const [isPro, setIsPro] = useState<string>("false");
+  const [isPro, setIsPro] = useState<boolean>(false);
 
   useEffect(() => {
     if (!window.GA_INITIALIZED) {
