@@ -1,17 +1,13 @@
 "use client";
 
 import GoogleAnalytics from "@/shared/GoogleAnalytics";
-import { db } from "@/utils/firebase";
 import { initGA, logPageView } from "@/utils/ga";
-import { getAuth } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useGetCompletedCollection } from "./hooks/useGetCompletedCollection";
 
 const DashBoardPage = () => {
-  const [countCompletedQuestions, setCountCompletedQuestions] = useState<any>();
-  // const [streak, setStreak] = useState(0);
-  const [totalSeconds, setTotalSeconds] = useState(0);
+  const { countCompletedQuestions, totalSeconds } = useGetCompletedCollection();
 
   useEffect(() => {
     if (!window.GA_INITIALIZED) {
@@ -19,36 +15,6 @@ const DashBoardPage = () => {
       window.GA_INITIALIZED = true;
     }
     logPageView();
-  }, []);
-
-  useEffect(() => {
-    const getCompletedCollectionByUserId = async () => {
-      try {
-        const auth = getAuth();
-        const user = auth.currentUser;
-
-        if (user) {
-          const completedCollectionRef = doc(db, "users", user.uid); // Reference to the "Completed" collection within the user document
-          const docSnapshot = await getDoc(completedCollectionRef);
-
-          if (docSnapshot.exists()) {
-            setCountCompletedQuestions(docSnapshot.data().Completed.length);
-            setTotalSeconds(docSnapshot.data().TotalTime);
-          } else {
-            console.log("User not found");
-          }
-        } else {
-          console.log("No authenticated user");
-        }
-      } catch (error) {
-        console.error(
-          'Error retrieving "Completed" collection for user:',
-          error
-        );
-      }
-    };
-
-    getCompletedCollectionByUserId();
   }, []);
 
   return (
@@ -68,7 +34,7 @@ const DashBoardPage = () => {
                 Completed questions
               </p>
               <p className="text-2xl font-bold text-gray-400 dark:text-black">
-                {countCompletedQuestions ? countCompletedQuestions : 0}
+                {countCompletedQuestions}
               </p>
             </motion.div>
             <motion.div
@@ -103,7 +69,7 @@ const DashBoardPage = () => {
               </div>
             </motion.div>
           </div>
-          <div className="hidden md:flex items-center justify-center h-[70vh] mb-4 rounded  cursor-pointer ">
+          <div className="hidden md:flex w-full items-center justify-center h-[70vh] mb-4 rounded  cursor-pointer ">
             <motion.section
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
