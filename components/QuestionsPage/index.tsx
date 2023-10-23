@@ -69,7 +69,7 @@ const QuestionsPage = () => {
 
         const data = await res.json();
 
-        if (isPro === "false") {
+        if (!isPro) {
           const filtered = data.filter(
             (question: { title: string }) => question.title === "Primary"
           );
