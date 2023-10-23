@@ -21,8 +21,8 @@ import { generateOrderId } from "@/utils/geterateOrderId";
 const SideBar = () => {
   const [isDesktop, setIsDesktop] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(!isDesktop);
-  const [isAdmin, setIsAdmin] = useState<string>("false");
-  const [isPro, setIsPro] = useState<string>("false");
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isPro, setIsPro] = useState<boolean>(false);
   const [userOrderID, setUserOrderID] = useState<string>("");
 
   const user = getAuth().currentUser;
@@ -135,6 +135,7 @@ const SideBar = () => {
     const userDocRef = doc(db, `users/${user?.uid}`);
     await updateDoc(userDocRef, {
       orderId: orderID,
+      isPro: true,
     });
   };
 
@@ -207,11 +208,7 @@ const SideBar = () => {
               </li>
               <li>
                 <Link
-                  href={
-                    isPro === "true"
-                      ? "/dashboard/interviews"
-                      : "/dashboard/get-pro"
-                  }
+                  href={isPro ? "/dashboard/interviews" : "/dashboard/get-pro"}
                   onClick={() => setIsOpen(!isOpen)}
                   className="flex items-center p-2 text-black hover:text-white rounded-lg hover:bg-gray-200"
                 >
@@ -219,7 +216,7 @@ const SideBar = () => {
                   <span className="flex-1 ml-3 whitespace-nowrap">
                     All interviews
                   </span>
-                  {isPro !== "true" && (
+                  {!isPro && (
                     <span className="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300">
                       Pro
                     </span>
@@ -251,7 +248,7 @@ const SideBar = () => {
             </p>
           </div>
           <div>
-            {user && isPro === "false" ? (
+            {user && !isPro ? (
               <form
                 method="POST"
                 acceptCharset="utf-8"
@@ -277,7 +274,7 @@ const SideBar = () => {
                 Cancel subscription
               </button>
             )}
-            {isAdmin === "true" && (
+            {isAdmin && (
               <Link
                 href="/dashboard/god"
                 className="flex items-center p-2 text-black hover:text-white rounded-lg hover:bg-gray-200 cursor-pointer"

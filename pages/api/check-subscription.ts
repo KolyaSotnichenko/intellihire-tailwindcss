@@ -11,14 +11,14 @@ export default async function handler(req: any, res: any) {
     const unsubscribeStatus = async () => {
         const userDocRef = doc(db, `users/${userID}`);
         await updateDoc(userDocRef, {
-            isPro: "false",
+            isPro: false,
         });
     }
 
     const setProStatus = async () => {
         const userDocRef = doc(db, `users/${userID}`);
         await updateDoc(userDocRef, {
-          isPro: "true",
+          isPro: true,
         });
       };
     
